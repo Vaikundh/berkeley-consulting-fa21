@@ -1,24 +1,40 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import LoginOrSignup from './Pages/Portal/LoginOrSignup';
+import { extendTheme, ChakraProvider, Box, Center} from '@chakra-ui/react';
+
+const theme = extendTheme({
+  colors: {
+    brand: {
+      200: "#ffffff",
+      100: "#f7fafc",
+      // ...
+      900: "#1a202c",
+    },
+  },
+  components: {
+    Tab: {
+      baseStyle: {
+        track: {
+          _focus: {
+            boxShadow: 'white'
+          }
+        }
+      }
+    }
+  }
+})
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ChakraProvider theme={theme}>
+        <Center>
+            <LoginOrSignup />
+        </Center>
+      </ChakraProvider>
     </div>
   );
 }
