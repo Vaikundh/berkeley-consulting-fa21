@@ -19,11 +19,13 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 // routes
-const signUp = require('./Routes/signUp')
-const signIn = require('./Routes/signIn')
-const Auth = require('./Routes/Auth')
+const signUp = require('./Routes/signUp');
+const signIn = require('./Routes/signIn');
+const Auth = require('./Routes/Auth');
+const signOut = require('./Routes/signOut');
 
 exports.signUp = signUp.createUserWithEmailAndPassword;
 exports.signIn = signIn.signInWithEmailAndPassword;
 exports.Auth = Auth.onAuthStateChanged;
+exports.signOut = signOut.signOut;
 
