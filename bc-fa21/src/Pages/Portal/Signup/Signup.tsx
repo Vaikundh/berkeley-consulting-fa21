@@ -10,7 +10,7 @@ function Signup() {
                 Sign Up
             </Button> */}
             
-            <Input placeholder='email@berkeley.edu' size='md' px={1}/>
+            <Input placeholder='email@berkeley.edu' size='md' mt={5} px={1}/>
             <Input placeholder='password' size='md' mt={5} px={1}/>
             <Input placeholder='confirm password' size='md' mt={5} px={1}/>
             <Button variant="outline" boxShadow='base' colorScheme='blue' mt={5} px={1} width="100%">

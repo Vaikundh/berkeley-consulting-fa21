@@ -23,6 +23,7 @@ const signUp = require('./Routes/signUp');
 const signIn = require('./Routes/signIn');
 const Auth = require('./Routes/Auth');
 const signOut = require('./Routes/signOut');
+// route to AuthProviders
 
 exports.signUp = signUp.createUserWithEmailAndPassword;
 exports.signIn = signIn.signInWithEmailAndPassword;

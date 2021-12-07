@@ -2,39 +2,19 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import LoginOrSignup from './Pages/Portal/LoginOrSignup';
-import { extendTheme, ChakraProvider, Box, Center} from '@chakra-ui/react';
+import {ChakraProvider, Box, Center} from '@chakra-ui/react';
+import theme from './Pages/themes';
 
-const theme = extendTheme({
-  colors: {
-    brand: {
-      200: "#ffffff",
-      100: "#f7fafc",
-      // ...
-      900: "#1a202c",
-    },
-  },
-  components: {
-    Tab: {
-      baseStyle: {
-        track: {
-          _focus: {
-            boxShadow: 'white'
-          }
-        }
-      }
-    }
-  }
-})
 
 
 function App() {
   return (
     <div>
       <ChakraProvider theme={theme}>
-        <Center>
+        <Box height="100vh">
             <LoginOrSignup />
-        </Center>
-      </ChakraProvider>
+        </Box>
+      </ChakraProvider>  
     </div>
   );
 }
