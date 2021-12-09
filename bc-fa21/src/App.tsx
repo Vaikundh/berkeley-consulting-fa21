@@ -3,14 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import LoginOrSignup from './Pages/Portal/LoginOrSignup';
 import {ChakraProvider, Box, Center} from '@chakra-ui/react';
-import theme from './Pages/themes';
+import theme from './Pages/Fonts';
 
 
 
 function App() {
   return (
     <div>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider>
         <Box height="100vh">
             <LoginOrSignup />
         </Box>

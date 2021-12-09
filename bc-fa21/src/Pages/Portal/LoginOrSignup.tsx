@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
-import {Tabs, TabList, Tab, TabPanels, TabPanel, Box, Flex, Spacer, Text, Center, Grid, GridItem, SimpleGrid} from '@chakra-ui/react'
 import Login from "./Login/Login";
 import Signup from "./Signup/Signup";
+import { Box} from '@chakra-ui/react';
+// import ApplicationPage from '../Application/ApplicationPage';
 
 // 2. Call `extendTheme` and pass your custom values
 
 function LoginOrSignup() {
-    const [isLogin, updateIsLogin] = useState(true)
+  const [isLogin, updateIsLogin] = useState(true)
     return (
-        // <Center>
+      <Box>
+        {isLogin? <Login updateIsLogin={updateIsLogin}/> : <Signup updateIsLogin={updateIsLogin}/>}
+
+        {/* <ApplicationPage/> */}
+      </Box>  
+    )
+  }
+  
+  export default LoginOrSignup;
+
+
+          // <Center>
         //     <Box borderRadius='lg' borderWidth='1px' outline='black' bg='white' color="black" w='100%' p={4}>
         //         <Center>    
         //             <Text fontSize='2xl' fontWeight="600">{isLogin? "Welcome Back!" : "Welcome!"} </Text>    
@@ -44,8 +56,14 @@ function LoginOrSignup() {
         //         </Flex>    
         //     </Box>
         // </Center>
-        <Login />
-    );
-  }
-  
-  export default LoginOrSignup;
+        // <Login/>
+    //     <Router>
+    //         <Switch>
+    //             <Route path="/src/Pages/Login/Login">
+    //                 <Login />
+    //             </Route>
+    //             <Route path="/src/Pages/Signup/Signup">
+    //                 <Signup />
+    //             </Route>
+    //         </Switch>
+    //   </Router>
