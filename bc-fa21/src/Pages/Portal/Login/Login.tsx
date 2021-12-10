@@ -62,7 +62,7 @@ function Login(props: LoginProps) {
                         fontFamily="P052"
                         fontStyle="normal"
                         fontWeight="bold"
-                        mb="15%"
+                        mb="12%"
                         mt='7%'
                     >
                         Welcome Back!
