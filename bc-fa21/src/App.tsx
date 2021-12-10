@@ -6,7 +6,6 @@ import {ChakraProvider, Box, Center} from '@chakra-ui/react';
 import theme from './Pages/Fonts';
 
 
-
 function App() {
   return (
     <div>
