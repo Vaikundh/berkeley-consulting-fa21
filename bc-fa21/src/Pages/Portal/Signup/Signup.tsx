@@ -62,6 +62,7 @@ function Signup(props: SignUpProps) {
                     <Button
                         borderRadius="100px"
                         variant="outline"
+                        
                         bgColor="#211E61"
                         color="#F8F8F8"
                         _hover={{

@@ -199,7 +199,12 @@ function Login(props: LoginProps) {
                     <Button
                         borderRadius="100px"
                         variant="outline"
-                        fontSize={{ xs: '8px', sm: '10px' }}
+                        fontSize={{
+                            base: '8px',
+                            md: '12px',
+                            lg: '14px',
+                            xl: '16px',
+                        }}
                         bgColor="#211E61"
                         color="#F8F8F8"
                         _hover={{
