@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Login from "./Login/Login";
 import Signup from "./Signup/Signup";
 import { Box} from '@chakra-ui/react';
-import { animated, useTransition } from "react-spring";
 // import ApplicationPage from '../Application/ApplicationPage';
 
 // 2. Call `extendTheme` and pass your custom values
@@ -33,32 +32,32 @@ function LoginOrSignup() {
     )} */}
 
         {/* <ApplicationPage/> */}
-      </Box>  
+      </Box>
     )
   }
-  
+
   export default LoginOrSignup;
 
 
           // <Center>
         //     <Box borderRadius='lg' borderWidth='1px' outline='black' bg='white' color="black" w='100%' p={4}>
-        //         <Center>    
-        //             <Text fontSize='2xl' fontWeight="600">{isLogin? "Welcome Back!" : "Welcome!"} </Text>    
+        //         <Center>
+        //             <Text fontSize='2xl' fontWeight="600">{isLogin? "Welcome Back!" : "Welcome!"} </Text>
         //         </Center>
         //         <Flex>
         //             <Tabs variant='enclosed-colored' align='center' mt={5}>
         //                 <TabList>
-        //                     <Tab 
-        //                     _selected={{ color: 'white', bg: '#211E61' }} 
-        //                     _focus={{ boxShadow: 'none' }} 
-        //                     onClick={(e) => {updateIsLogin(true)}} 
+        //                     <Tab
+        //                     _selected={{ color: 'white', bg: '#211E61' }}
+        //                     _focus={{ boxShadow: 'none' }}
+        //                     onClick={(e) => {updateIsLogin(true)}}
         //                     height='55px' width='50%'>
         //                         Login
         //                     </Tab>
-        //                     <Tab 
-        //                     _selected={{ color: 'white', bg: '#211E61' }} 
-        //                     _focus={{ boxShadow: 'none' }} 
-        //                     onClick={(e) => {updateIsLogin(false)}} 
+        //                     <Tab
+        //                     _selected={{ color: 'white', bg: '#211E61' }}
+        //                     _focus={{ boxShadow: 'none' }}
+        //                     onClick={(e) => {updateIsLogin(false)}}
         //                     height='55px' width='50%'>
         //                         Signup
         //                     </Tab>
@@ -73,7 +72,7 @@ function LoginOrSignup() {
         //                     </TabPanel>
         //                 </TabPanels>
         //             </Tabs>
-        //         </Flex>    
+        //         </Flex>
         //     </Box>
         // </Center>
         // <Login/>
