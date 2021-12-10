@@ -1,5 +1,5 @@
-// // authentication
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
+// authentication
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // const auth = getAuth();
 // exports.onAuthStateChanged(auth, (user) => {

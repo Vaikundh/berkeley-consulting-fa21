@@ -6,21 +6,21 @@ const Fonts: React.FC = () => (
     styles={`
           @font-face {
               font-family: 'P052';
-              src: url('/fonts/P052-Bold.ttf');
+              src: url('fonts/P052-Bold.ttf');
               font-weight: 700;
               font-style: normal;
               font-display: block;
           }
           @font-face {
               font-family: 'P052';
-              src: url('/fonts/P052-BoldItalic.ttf');
+              src: url('fonts/P052-BoldItalic.ttf');
               font-weight: 500;
               font-style: normal;
               font-display: block;
           }
           @font-face {
               font-family: 'P052';
-              src: url('/fonts/P052-Italic.ttf');
+              src: url('fonts/P052-Italic.ttf');
               font-weight: 700;
               font-style: normal;
               font-display: block;

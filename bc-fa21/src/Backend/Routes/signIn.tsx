@@ -18,10 +18,7 @@ async function signIn(email:string, password:string):Promise<boolean> {
     return false
   });
 
-  if (success) {
-    return true;
-  }
-  return false;
+  return success
 }
 
 export default signIn;
