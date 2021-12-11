@@ -1,9 +1,6 @@
-import React from 'react'
-import logo from './logo.svg'
 import './App.css'
 import LoginOrSignup from './Pages/Portal/LoginOrSignup'
-import { ChakraProvider, Box, Center } from '@chakra-ui/react'
-import Fonts from './Pages/Fonts'
+import { ChakraProvider, Box } from '@chakra-ui/react'
 
 function App() {
     return (
@@ -17,4 +14,4 @@ function App() {
     )
 }
 
-export default App
+export default App;

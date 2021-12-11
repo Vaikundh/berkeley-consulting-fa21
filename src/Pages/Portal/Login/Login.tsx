@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react'
+import React, { SetStateAction } from 'react'
 import {
     Button,
     Input,
@@ -6,25 +6,16 @@ import {
     Box,
     Flex,
     Text,
-    Center,
     FormControl,
-    Spacer,
     HStack,
     InputLeftElement,
 } from '@chakra-ui/react'
 import { FaFacebook, FaGithub } from 'react-icons/fa'
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { FcGoogle } from 'react-icons/fc'
-import {
-    BrowserRouter as Router,
-    Routes as Switch,
-    Route,
-    Link as RouteLink,
-} from 'react-router-dom'
-import '../../../Backend/index'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useDisclosure } from '@chakra-ui/react'
-import signIn from '../../../Backend/Routes/signIn'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import firebase_app from '../../../firebase'
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -44,17 +35,21 @@ function Login(props: LoginProps) {
     } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const success = await signIn(data.email, data.password)
-        if (success) {
-            console.log('yay') // go to application page
-        } else {
-            console.log("Couldn\'t log in")
+        try {
+            const auth = getAuth(firebase_app)
+            await signInWithEmailAndPassword(auth, data.email, data.password).then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+                return user
+            })
+        } catch (e) {
+            console.log(e)
         }
     }
 
     return (
         <Flex height="100vh">
-            <Flex flex='2.5' bg='#F8F8F8' alignItems='start' justifyContent="center" pt="5%">
+            <Flex flex="2.5" bg="#F8F8F8" alignItems="start" justifyContent="center" pt="5%">
                 <Flex direction="column" width="60%" alignItems="center" justifyContent="start">
                     <Text
                         color="#211E61"
@@ -63,7 +58,7 @@ function Login(props: LoginProps) {
                         fontStyle="normal"
                         fontWeight="bold"
                         mb="12%"
-                        mt='7%'
+                        mt="7%"
                     >
                         Welcome Back!
                     </Text>
@@ -122,7 +117,7 @@ function Login(props: LoginProps) {
                             <FaGithub />
                         </Button>
                     </HStack>
-                        <FormControl>
+                    <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Flex direction="column" justifyContent="center" alignItems="center">
                                 <InputGroup>
@@ -167,8 +162,8 @@ function Login(props: LoginProps) {
                                     Log In
                                 </Button>
                             </Flex>
-                            </form>
-                        </FormControl>
+                        </form>
+                    </FormControl>
                 </Flex>
             </Flex>
             <Box flex="1" bg="#211E61">
