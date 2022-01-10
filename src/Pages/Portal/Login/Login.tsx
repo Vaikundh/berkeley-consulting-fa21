@@ -10,11 +10,15 @@ import {
     HStack,
     InputLeftElement,
 } from '@chakra-ui/react'
-import { FaFacebook, FaGithub } from 'react-icons/fa'
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { FcGoogle } from 'react-icons/fc'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+} from 'firebase/auth'
 import firebase_app from '../../../firebase'
 
 interface LoginProps {
@@ -34,14 +38,32 @@ function Login(props: LoginProps) {
         formState: { errors },
     } = useForm<Inputs>()
 
+    const signInWithGoogle = () => {
+        const auth = getAuth(firebase_app)
+        const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = result.user
+                console.log(user)
+                return user
+            })
+            .catch((error) => {
+                const errorCode = error.code
+                const errorMessage = error.message
+                console.log(errorCode, errorMessage)
+            })
+    }
+
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
             const auth = getAuth(firebase_app)
-            await signInWithEmailAndPassword(auth, data.email, data.password).then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
-                return user
-            })
+            await signInWithEmailAndPassword(auth, data.email, data.password).then(
+                (userCredential) => {
+                    const user = userCredential.user
+                    console.log(user)
+                    return user
+                }
+            )
         } catch (e) {
             console.log(e)
         }
@@ -64,6 +86,7 @@ function Login(props: LoginProps) {
                     </Text>
                     <HStack spacing="30px" mb={30}>
                         <Button
+                            onClick={signInWithGoogle}
                             fontSize="40px"
                             borderRadius="100px"
                             variant="outline"
@@ -81,40 +104,6 @@ function Login(props: LoginProps) {
                             margin={0}
                         >
                             <FcGoogle />
-                        </Button>
-                        <Button
-                            borderRadius="100px"
-                            variant="outline"
-                            fontSize="40px"
-                            boxShadow="base"
-                            colorScheme="facebook"
-                            borderColor="darkgrey"
-                            _hover={{
-                                bg: '#F8F8F8',
-                                borderColor: '#000000',
-                            }}
-                            mt={5}
-                            height="80px"
-                            width="80px"
-                        >
-                            <FaFacebook />
-                        </Button>
-                        <Button
-                            borderRadius="100px"
-                            variant="outline"
-                            fontSize="40px"
-                            boxShadow="base"
-                            color="black"
-                            borderColor="darkgrey"
-                            _hover={{
-                                bg: '#F8F8F8',
-                                borderColor: '#000000',
-                            }}
-                            mt={5}
-                            height="80px"
-                            width="80px"
-                        >
-                            <FaGithub />
                         </Button>
                     </HStack>
                     <FormControl>

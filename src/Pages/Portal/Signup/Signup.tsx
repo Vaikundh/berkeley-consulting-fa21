@@ -12,7 +12,6 @@ import {
     InputRightElement,
 } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { FaFacebook, FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { EmailIcon, LockIcon, CheckIcon } from '@chakra-ui/icons'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
@@ -125,40 +124,6 @@ function Signup(props: SignUpProps) {
                             margin={0}
                         >
                             <FcGoogle />
-                        </Button>
-                        <Button
-                            borderRadius="100px"
-                            variant="outline"
-                            fontSize="40px"
-                            boxShadow="base"
-                            colorScheme="facebook"
-                            borderColor="darkgrey"
-                            _hover={{
-                                bg: '#F8F8F8',
-                                borderColor: '#000000',
-                            }}
-                            mt={5}
-                            height="80px"
-                            width="80px"
-                        >
-                            <FaFacebook />
-                        </Button>
-                        <Button
-                            borderRadius="100px"
-                            variant="outline"
-                            fontSize="40px"
-                            boxShadow="base"
-                            color="black"
-                            borderColor="darkgrey"
-                            _hover={{
-                                bg: '#F8F8F8',
-                                borderColor: '#000000',
-                            }}
-                            mt={5}
-                            height="80px"
-                            width="80px"
-                        >
-                            <FaGithub />
                         </Button>
                     </HStack>
                     <FormControl>
