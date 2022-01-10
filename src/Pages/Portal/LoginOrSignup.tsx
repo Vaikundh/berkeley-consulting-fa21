@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Login from './Login/Login'
 import Signup from './Signup/Signup'
 import { Box } from '@chakra-ui/react'

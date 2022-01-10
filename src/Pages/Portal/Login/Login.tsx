@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react'
+import React, { useState, SetStateAction } from 'react'
 import {
     Button,
     Input,
@@ -31,6 +31,7 @@ type Inputs = {
 }
 
 function Login(props: LoginProps) {
+    const [LogInError, updateError] = useState('')
     const {
         register,
         handleSubmit,
@@ -38,10 +39,10 @@ function Login(props: LoginProps) {
         formState: { errors },
     } = useForm<Inputs>()
 
-    const signInWithGoogle = () => {
+    const signInWithGoogle = async () => {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
-        signInWithPopup(auth, provider)
+        await signInWithPopup(auth, provider)
             .then((result) => {
                 const user = result.user
                 console.log(user)
@@ -49,24 +50,24 @@ function Login(props: LoginProps) {
             })
             .catch((error) => {
                 const errorCode = error.code
-                const errorMessage = error.message
-                console.log(errorCode, errorMessage)
+                console.log(error)
+                updateError(errorCode)
             })
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        try {
-            const auth = getAuth(firebase_app)
-            await signInWithEmailAndPassword(auth, data.email, data.password).then(
-                (userCredential) => {
-                    const user = userCredential.user
-                    console.log(user)
-                    return user
-                }
-            )
-        } catch (e) {
-            console.log(e)
-        }
+        const auth = getAuth(firebase_app)
+        await signInWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+                const user = userCredential.user
+                console.log(user)
+                return user
+            })
+            .catch((error) => {
+                const errorCode= error.code
+                console.log(error)
+                updateError(errorCode)
+            })
     }
 
     return (
@@ -106,6 +107,7 @@ function Login(props: LoginProps) {
                             <FcGoogle />
                         </Button>
                     </HStack>
+                    <Text color="red">{LogInError}</Text>
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Flex direction="column" justifyContent="center" alignItems="center">

@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react'
+import React, { useState, SetStateAction } from 'react'
 import {
     Box,
     Button,
@@ -24,9 +24,11 @@ interface SignUpProps {
 type Inputs = {
     email: string
     password: string
+    validatepass: string
 }
 
 function Signup(props: SignUpProps) {
+    const [signUpError, updateError] = useState('')
     const {
         register,
         handleSubmit,
@@ -35,18 +37,22 @@ function Signup(props: SignUpProps) {
     } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        try {
             const auth = getAuth(firebase_app)
-            await createUserWithEmailAndPassword(auth, data.email, data.password).then(
-                (userCredential) => {
-                    const user = userCredential.user
-                    console.log(user)
-                    return user
-                }
-            )
-        } catch (e) {
-            console.log(e)
-        }
+            if (data.password === data.validatepass) {
+                await createUserWithEmailAndPassword(auth, data.email, data.password).then(
+                    (userCredential) => {
+                        const user = userCredential.user
+                        console.log(user)
+                        return user
+                    }
+                ).catch((error) => {
+                    const errorCode = error.code
+                    console.log(error)
+                    updateError(errorCode)
+                })
+            } else {
+                updateError("Passwords do not match.")
+            }
     }
 
     return (
@@ -126,6 +132,7 @@ function Signup(props: SignUpProps) {
                             <FcGoogle />
                         </Button>
                     </HStack>
+                    <Text color="red">{signUpError}</Text>
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Flex direction="column" justifyContent="center" alignItems="center">
@@ -159,6 +166,7 @@ function Signup(props: SignUpProps) {
                                         children={<LockIcon color="gray.300" />}
                                     />
                                     <Input
+                                        {...register('validatepass')}
                                         placeholder="confirm password"
                                         borderColor="darkgrey"
                                         mb={5}
