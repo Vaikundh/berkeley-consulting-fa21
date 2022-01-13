@@ -20,6 +20,7 @@ import {
     GoogleAuthProvider,
 } from 'firebase/auth'
 import firebase_app from '../../../firebase'
+// import { useHistory } from "react-router-dom";
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -44,13 +45,10 @@ function Login(props: LoginProps) {
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
             .then((result) => {
-                const user = result.user
-                console.log(user)
-                return user
+                return result.user
             })
             .catch((error) => {
                 const errorCode = error.code
-                console.log(error)
                 updateError(errorCode)
             })
     }
@@ -60,15 +58,19 @@ function Login(props: LoginProps) {
         await signInWithEmailAndPassword(auth, data.email, data.password)
             .then((userCredential) => {
                 const user = userCredential.user
-                console.log(user)
                 return user
             })
             .catch((error) => {
                 const errorCode= error.code
-                console.log(error)
                 updateError(errorCode)
             })
     }
+
+    // const history = useHistory();
+    // const routeChange = () =>{ 
+    //     let path = `Application`; 
+    //     history.push(path);
+    // }
 
     return (
         <Flex height="100vh">
@@ -149,6 +151,7 @@ function Login(props: LoginProps) {
                                     mt={5}
                                     height="60px"
                                     width="35%"
+                                
                                 >
                                     Log In
                                 </Button>

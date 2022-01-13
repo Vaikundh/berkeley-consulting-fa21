@@ -14,7 +14,7 @@ import {
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
 import { EmailIcon, LockIcon, CheckIcon } from '@chakra-ui/icons'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import firebase_app from '../../../firebase'
 
 interface SignUpProps {
@@ -36,18 +36,29 @@ function Signup(props: SignUpProps) {
         formState: { errors },
     } = useForm<Inputs>()
 
+    const signInWithGoogle = async () => {
+        const auth = getAuth(firebase_app)
+        const provider = new GoogleAuthProvider()
+        await signInWithPopup(auth, provider)
+            .then((result) => {
+                return result.user
+            })
+            .catch((error) => {
+                const errorCode = error.code
+                updateError(errorCode)
+            })
+    }
+
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
             const auth = getAuth(firebase_app)
             if (data.password === data.validatepass) {
                 await createUserWithEmailAndPassword(auth, data.email, data.password).then(
                     (userCredential) => {
                         const user = userCredential.user
-                        console.log(user)
                         return user
                     }
                 ).catch((error) => {
                     const errorCode = error.code
-                    console.log(error)
                     updateError(errorCode)
                 })
             } else {
@@ -113,6 +124,7 @@ function Signup(props: SignUpProps) {
                     </Text>
                     <HStack spacing="30px" mb={30}>
                         <Button
+                            onClick={signInWithGoogle}
                             fontSize="40px"
                             borderRadius="100px"
                             variant="outline"
