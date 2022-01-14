@@ -43,9 +43,13 @@ function Signup(props: SignUpProps) {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
-            .then((result) => {
+            .then((userCredential: any) => {
+                const user = userCredential.user
+                const token = userCredential._tokenResponse.refreshToken
+                sessionStorage.setItem('Auth Token', token)
+                sessionStorage.setItem('Email', user.email);
                 navigate("/application");
-                return result.user
+                return user
             })
             .catch((error) => {
                 const errorCode = error.code
@@ -57,8 +61,11 @@ function Signup(props: SignUpProps) {
             const auth = getAuth(firebase_app)
             if (data.password === data.validatepass) {
                 await createUserWithEmailAndPassword(auth, data.email, data.password).then(
-                    (userCredential) => {
+                    (userCredential: any) => {
                         const user = userCredential.user
+                        const token = userCredential._tokenResponse.refreshToken
+                        sessionStorage.setItem('Auth Token', token)
+                        sessionStorage.setItem('Email', user.email);
                         navigate("/application");
                         return user
                     }

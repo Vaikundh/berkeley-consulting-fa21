@@ -46,9 +46,12 @@ function Login(props: LoginProps) {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
-            .then((result) => {
+            .then((userCredential: any) => {
+                const user = userCredential.user
+                const token = userCredential._tokenResponse.refreshToken
+                sessionStorage.setItem('Auth Token', token)
                 navigate("/application");
-                return result.user
+                return user
             })
             .catch((error) => {
                 const errorCode = error.code
@@ -59,8 +62,10 @@ function Login(props: LoginProps) {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const auth = getAuth(firebase_app)
         await signInWithEmailAndPassword(auth, data.email, data.password)
-            .then((userCredential) => {
+            .then((userCredential: any) => {
                 const user = userCredential.user
+                const token = userCredential._tokenResponse.refreshToken
+                sessionStorage.setItem('Auth Token', token)
                 navigate("/application");
                 return user
             })
