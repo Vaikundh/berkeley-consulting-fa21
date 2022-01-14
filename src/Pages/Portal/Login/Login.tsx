@@ -20,7 +20,7 @@ import {
     GoogleAuthProvider,
 } from 'firebase/auth'
 import firebase_app from '../../../firebase'
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -40,11 +40,14 @@ function Login(props: LoginProps) {
         formState: { errors },
     } = useForm<Inputs>()
 
+    const navigate = useNavigate();
+
     const signInWithGoogle = async () => {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
             .then((result) => {
+                navigate("/application");
                 return result.user
             })
             .catch((error) => {
@@ -58,19 +61,15 @@ function Login(props: LoginProps) {
         await signInWithEmailAndPassword(auth, data.email, data.password)
             .then((userCredential) => {
                 const user = userCredential.user
+                navigate("/application");
                 return user
             })
             .catch((error) => {
                 const errorCode= error.code
                 updateError(errorCode)
             })
+        
     }
-
-    // const history = useHistory();
-    // const routeChange = () =>{ 
-    //     let path = `Application`; 
-    //     history.push(path);
-    // }
 
     return (
         <Flex height="100vh">
@@ -151,7 +150,6 @@ function Login(props: LoginProps) {
                                     mt={5}
                                     height="60px"
                                     width="35%"
-                                
                                 >
                                     Log In
                                 </Button>

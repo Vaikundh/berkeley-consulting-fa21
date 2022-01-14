@@ -16,6 +16,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { EmailIcon, LockIcon, CheckIcon } from '@chakra-ui/icons'
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import firebase_app from '../../../firebase'
+import { useNavigate } from "react-router-dom";
 
 interface SignUpProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -36,11 +37,14 @@ function Signup(props: SignUpProps) {
         formState: { errors },
     } = useForm<Inputs>()
 
+    const navigate = useNavigate();
+
     const signInWithGoogle = async () => {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
             .then((result) => {
+                navigate("/application");
                 return result.user
             })
             .catch((error) => {
@@ -55,6 +59,7 @@ function Signup(props: SignUpProps) {
                 await createUserWithEmailAndPassword(auth, data.email, data.password).then(
                     (userCredential) => {
                         const user = userCredential.user
+                        navigate("/application");
                         return user
                     }
                 ).catch((error) => {
