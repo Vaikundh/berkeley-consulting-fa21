@@ -48,6 +48,7 @@ function Signup(props: SignUpProps) {
                 const token = userCredential._tokenResponse.refreshToken
                 sessionStorage.setItem('Auth Token', token)
                 sessionStorage.setItem('Email', user.email);
+                sessionStorage.setItem('uid', user.uid);
                 navigate("/application");
                 return user
             })
@@ -66,6 +67,7 @@ function Signup(props: SignUpProps) {
                         const token = userCredential._tokenResponse.refreshToken
                         sessionStorage.setItem('Auth Token', token)
                         sessionStorage.setItem('Email', user.email);
+                        sessionStorage.setItem('uid', user.uid);
                         navigate("/application");
                         return user
                     }

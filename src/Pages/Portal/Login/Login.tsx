@@ -50,6 +50,8 @@ function Login(props: LoginProps) {
                 const user = userCredential.user
                 const token = userCredential._tokenResponse.refreshToken
                 sessionStorage.setItem('Auth Token', token)
+                sessionStorage.setItem('Email', user.email);
+                sessionStorage.setItem('uid', user.uid);
                 navigate("/application");
                 return user
             })
@@ -66,6 +68,8 @@ function Login(props: LoginProps) {
                 const user = userCredential.user
                 const token = userCredential._tokenResponse.refreshToken
                 sessionStorage.setItem('Auth Token', token)
+                sessionStorage.setItem('Email', user.email);
+                sessionStorage.setItem('uid', user.uid);
                 navigate("/application");
                 return user
             })
