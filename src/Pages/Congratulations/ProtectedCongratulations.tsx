@@ -9,11 +9,20 @@ function ProtectedCongratulations() {
     //Check user, if it's submitted navigate to Congratulations
     const db = getDatabase()
     const uid = sessionStorage.getItem("uid");
-    const submittedApp = get(ref(db, "/SavedApps/" + uid))
-    console.log(submittedApp)
-    if (uid == null || uid == '') {
-        return <Navigate to="/" />;
+    const submitted = get(ref(db, "/SubmittedApps/" + uid)).then((submittedApp) => {
+        
+        if (submittedApp.val() == null) {
+            console.log(submittedApp.val())
+            console.log(submittedApp.key)
+            return false
+        }
+        return true
+    })
+    if (uid === "hi") { //need to fix
+        return <Navigate to="/" />
     }
-    return <Outlet />
+    return <Outlet />;
+    
+    
 }
 export default ProtectedCongratulations;
