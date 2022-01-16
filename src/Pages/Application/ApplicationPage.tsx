@@ -32,6 +32,7 @@ function ApplicationPage() {
         console.log(data);
         set(ref(db, "/SubmittedApps/" + uid), data).then(() => {
             setSubmitError(false);
+            navigate("/congratulations");
         }).catch((error) => {
             console.log(error);
             setSubmitError(true);
@@ -262,7 +263,7 @@ function ApplicationPage() {
                     </FormControl>  
                     
                     <Button mt="1%" mb="1%" onClick={() => onSave(getValues())}>Save</Button>
-                    <Button type="submit" mt="1%" ml='1%' mb="1%">Submit</Button>
+                    <Button type="submit" mt="1%" ml='1%' mb="1%" >Submit</Button>
                     
                 </Box>
             </Flex>

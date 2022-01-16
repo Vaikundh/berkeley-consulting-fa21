@@ -1,23 +1,47 @@
 import React,{useRef, Component, useEffect, useState} from 'react';
-import {Input, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, Stack} from '@chakra-ui/react';
-import { useForm, UseFormRegisterReturn } from 'react-hook-form'
+import {Heading, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database"
-// import useWindowSize from 'react-use/lib/useWindowSize'
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import Confetti from 'react-confetti';
 
 function Congratulations() {
+    const email = sessionStorage.getItem("Email")
+    const navigate = useNavigate();
+    const logOut = async () => {
+        const auth = getAuth();
+        await signOut(auth).then(() => {
+            navigate('/')
+            sessionStorage.removeItem("Auth Token");
+            sessionStorage.removeItem('Email');
+            sessionStorage.removeItem('uid');
+        }).catch((error) => {
+            console.log('error');
+        });
+    }
+
     return (
-        
-        <Flex justifyContent='center' alignItems='center'>
+        <Flex direction='column' alignItems='center'>
+            <Box top="50px" width='95%'>
+                <Flex direction="row" justifyContent='end'>
+                    <Menu>
+                        <MenuButton mt="1%" color="white" bgColor="#211E61" as={Button} rightIcon={<ChevronDownIcon />}>
+                            Account
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem>{email}</MenuItem>
+                            <MenuItem onClick={logOut}>Log Out</MenuItem>
+                        </MenuList>
+                    </Menu>
+                </Flex>
+            </Box> 
             <Confetti
             width={window.innerWidth}
             height={window.innerWidth}
             />
-            <Text>
+            <Heading mt='10%' size='lg'>
                 Congratulations!
-            </Text>
+            </Heading>
         </Flex>
     )
 }
