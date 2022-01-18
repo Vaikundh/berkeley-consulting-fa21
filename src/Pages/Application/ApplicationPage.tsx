@@ -5,7 +5,7 @@ import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
-import { getStorage, ref as storageRef, uploadBytes, UploadResult } from "firebase/storage"
+import { getStorage, ref as storageRef, uploadBytes, UploadResult, getDownloadURL } from "firebase/storage"
 
 
 function ApplicationPage() {
@@ -97,9 +97,6 @@ function ApplicationPage() {
     const storage = getStorage();
     const storRef = storageRef(storage, "" + uid)
     const handleUpload = (file: File) => {
-        uploadBytes(storRef, file).then((snapshot : UploadResult) => {
-            console.log()
-        })
         return true;
     }
 

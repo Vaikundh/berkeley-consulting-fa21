@@ -13,6 +13,8 @@ function ProtectedCongratulations() {
     const db = getDatabase()
     const uid = sessionStorage.getItem("uid");
     let a;
+    //useeffect hook (runs the async getter on init, result sets a state variable) and usestate hook to check state variable
+
     const submitted = async () => {
         const application = await get(ref(db, "/SubmittedApps/" + uid))
         a = application.val().isSubmitted;
