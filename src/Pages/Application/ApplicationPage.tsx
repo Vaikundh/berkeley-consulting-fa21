@@ -4,7 +4,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
-import { getDatabase, ref, set, get } from "firebase/database"
+import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
 
 
 function ApplicationPage() {
@@ -14,15 +14,24 @@ function ApplicationPage() {
     const [submitError, setSubmitError] = useState(false)
     const [saveError, setSaveError] = useState(false)
     const [saveSuccess, setSaveSuccess] = useState(false)
+    const [unsaved, setUnsaved] = useState(false)
     const navigate = useNavigate();
     const db = getDatabase();
+
     
     const email = sessionStorage.getItem("Email")  
     const uid = sessionStorage.getItem("uid")
 
-    const savedData = get(ref(db, "/SavedApps/" + uid)).then((data) => {
-        console.log(data)
-        setValue('Name', 'test')
+    const savedData = get(ref(db, "/SavedApps/" + uid)).then((data: DataSnapshot) => {
+        console.log(data.toJSON())
+        const jsonData : any = data.toJSON();
+        if (jsonData != null) {
+            for (const property in jsonData) {
+                if (jsonData[property] != '') {
+                    setValue(property, jsonData[property])
+                }
+              }
+        }
     }
     )
     
@@ -146,15 +155,15 @@ function ApplicationPage() {
                     <FormControl isRequired>
                         <FormLabel mt='1%' htmlFor='reapplying' fontFamily="P052">Are you reapplying?</FormLabel>
                         <Select placeholder='Select a response' {...register('Reapplying')}>
-                            <option value='option1'>Yes</option>
-                            <option value='option1'>No</option>
+                            <option value='yes'>Yes</option>
+                            <option value='no'>No</option>
                         </Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel mt='1%' htmlFor='tuesday' fontFamily="P052">Are you free on Tuesday Nights?</FormLabel>
                         <Select placeholder='Select a response' {...register('Free Tuesday')}>
-                            <option value='option1'>Yes</option>
-                            <option value='option1'>No</option>
+                            <option value='yes'>Yes</option>
+                            <option value='no'>No</option>
                         </Select>
                     </FormControl>
                     
