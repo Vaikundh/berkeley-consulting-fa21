@@ -1,11 +1,12 @@
 import React,{useRef, Component, useEffect, useState} from 'react';
-import {Input, Center, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, HStack, Alert, AlertDescription, AlertIcon, AlertTitle, CloseButton} from '@chakra-ui/react';
+import {Input, Center, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, HStack, Stack, Alert, AlertDescription, AlertIcon, AlertTitle, CloseButton} from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
-import { getStorage, ref as storageRef, uploadBytes, UploadResult } from "firebase/storage"
+import { getDownloadURL, getStorage, ref as storageRef, uploadBytes, UploadResult } from "firebase/storage"
+import { property } from 'lodash';
 
 
 function ApplicationPage() {
@@ -14,10 +15,14 @@ function ApplicationPage() {
     const [saveError, setSaveError] = useState(false)
     const [saveSuccess, setSaveSuccess] = useState(false)
     const [image, setImage] = useState<File>()
+    const [resume, setResume] = useState<File>()
+    const [transcript, setTranscript] = useState<File>()
+    const [choice, setChoice] = useState('Choice 1');
     const navigate = useNavigate();
-    const db = getDatabase();
-
     
+    const db = getDatabase();
+    const storage = getStorage();
+
     const email = sessionStorage.getItem("Email")  
     const uid = sessionStorage.getItem("uid")
 
@@ -32,6 +37,38 @@ function ApplicationPage() {
               }
         }
     })
+    getDownloadURL(storageRef(storage, "" + uid + "/image"))
+        .then((url) => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = (event) => {
+                setValue("Photo", xhr.response);
+            };
+            xhr.open('GET', url);
+            xhr.send();
+    })
+    getDownloadURL(storageRef(storage, "" + uid + "/resume"))
+        .then((url) => {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+            setValue("Resume", xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.send();
+    })
+    getDownloadURL(storageRef(storage, "" + uid + "/transcript"))
+        .then((url) => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = (event) => {
+                setValue("Transcript", xhr.response);
+            };
+            xhr.open('GET', url);
+            xhr.send();
+    })
+
+    
     
 
     // const isInitialMount = useRef(true);
@@ -59,6 +96,15 @@ function ApplicationPage() {
             setSaveError(true);
             setSaveSuccess(false);
         })
+        if (image) {
+            handleUpload(image, "image")
+        }
+        if (transcript) {
+            handleUpload(transcript, "transcript")
+        }
+        if (resume) {
+            handleUpload(resume, "resume")
+        }
     }
 
     
@@ -88,17 +134,17 @@ function ApplicationPage() {
         });
     }
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, f: (arg0: File) => any) => {
         if (e.target.files != null) {
-            setImage(e.target.files[0]);
+            f(e.target.files[0]);
         }
     }
 
-    const storage = getStorage();
-    const storRef = storageRef(storage, "" + uid)
-    const handleUpload = (file: File) => {
-        uploadBytes(storRef, file).then((snapshot : UploadResult) => {
-            console.log()
+    const handleUpload = (file: File, fileName: string) => {
+        uploadBytes(storageRef(storage, "" + uid + "/" + fileName), file).then((snapshot : UploadResult) => {
+            console.log(getDownloadURL(snapshot.ref).then((downloadURL) => {
+                console.log(downloadURL)
+            }))
         })
         return true;
     }
@@ -147,6 +193,14 @@ function ApplicationPage() {
                     <FormControl isRequired>
                         <FormLabel mt='1%' htmlFor='major' fontFamily="P052">What is your major?</FormLabel>
                         <Input placeholder="Major" {...register('Major')}></Input>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel mt='1%' htmlFor='major' fontFamily="P052">What is your second major? (Optional)</FormLabel>
+                        <Input placeholder="Second Major" {...register('Second Major')}></Input>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel mt='1%' htmlFor='major' fontFamily="P052">What is your third major? (Optional)</FormLabel>
+                        <Input placeholder="Third Major" {...register('Third Major')}></Input>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel mt='1%' htmlFor='gpa' fontFamily="P052">What is your GPA?</FormLabel>
@@ -204,7 +258,7 @@ function ApplicationPage() {
                         >
                             Resume Upload
                         </FormLabel>
-                        <Input type='file' {...register('Resume')}/>
+                        <Input type='file' accept=".pdf" {...register('Resume')} onChange={(e) => {handleFileChange(e, setResume)}}/>
                         <FormHelperText>Putting together a resume can be daunting, so we've put together some tips and a template for you on our FAQ page.</FormHelperText>
                     </FormControl>
                     
@@ -217,13 +271,13 @@ function ApplicationPage() {
                         >
                             Academic Transcipt Upload
                         </FormLabel>
-                        <Input type='file' {...register('Transcript')}/>
+                        <Input type='file' accept=".pdf"  {...register('Transcript')} onChange={(e) => {handleFileChange(e, setTranscript)}}/>
                         <FormHelperText>An unofficial copy from CalCentral will work perfectly fine here.</FormHelperText>
                     </FormControl>
                     
                     <FormControl isRequired> 
                         <FormLabel htmlFor='photo' fontFamily="P052" fontStyle="normal" mt='1.5%'> Photo of yourself </FormLabel>
-                        <Input type='file' {...register('Photo')} onChange={handleImageChange}/>
+                        <Input type='file' accept="image/*" {...register('Photo')} onChange={(e) => {handleFileChange(e, setImage)}}/>
                         <FormHelperText>This is not used to evaluate your application and is only seen after interviews.</FormHelperText>
                     </FormControl>
                     
@@ -239,14 +293,14 @@ function ApplicationPage() {
                         The final section of our application involves two 250-word essays. If reapplying you may choose to reuse your response to prompt 1, but please submit a new response to prompt 2.
                     </Text>
                     
-                    {/* <FormControl >
+                    <FormControl >
                         <RadioGroup value={choice} onChange={setChoice}>
-                            <Stack direction='row' spacing={5}>
-                                <Radio value='1'>Choice 1</Radio>
-                                <Radio value='2'>Choice 2</Radio>
+                            <Stack direction='row' spacing={5} {...register('Prompt 1 Choice')}>
+                                <Radio value='Choice 1' >Choice 1</Radio>
+                                <Radio value='Choice 2'>Choice 2</Radio>
                             </Stack>
                         </RadioGroup>
-                    </FormControl> */}
+                    </FormControl>
                     
                     <FormControl isRequired>
                         <FormLabel htmlFor="choice-1"
