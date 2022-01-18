@@ -79,7 +79,7 @@ function Login(props: LoginProps) {
             })
         
     }
-
+    const [show, setShow] = React.useState(false)
     return (
         <Flex height="100vh">
             <Flex flex="2.5" bg="#F8F8F8" alignItems="start" justifyContent="center" pt="5%">
@@ -140,6 +140,7 @@ function Login(props: LoginProps) {
                                     />
                                     <Input
                                         {...register('password')}
+                                        type={show ? 'text' : 'password'}
                                         placeholder="password"
                                         borderColor="darkgrey"
                                     />

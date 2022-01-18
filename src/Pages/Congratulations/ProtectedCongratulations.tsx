@@ -7,22 +7,21 @@ import { getDatabase, ref, get } from "firebase/database";
 
 function ProtectedCongratulations() {
     //Check user, if it's submitted navigate to Congratulations
+    // need to find user in database
+    // if isSubmitted == true then navigate(/congratulations)
+    // else --> application
     const db = getDatabase()
     const uid = sessionStorage.getItem("uid");
-    const submitted = get(ref(db, "/SubmittedApps/" + uid)).then((submittedApp) => {
-        
-        if (submittedApp.val() == null) {
-            console.log(submittedApp.val())
-            console.log(submittedApp.key)
-            return false
-        }
-        return true
-    })
-    if (uid === "hi") { //need to fix
-        return <Navigate to="/" />
+    let a;
+    const submitted = async () => {
+        const application = await get(ref(db, "/SubmittedApps/" + uid))
+        a = application.val().isSubmitted;
     }
-    return <Outlet />;
-    
+    console.log(a)
+    if (a == true) { //need to fix
+        return <Navigate to="/congratulations" />
+    }
+    return <>{a==true ? <Navigate to="/congratulations" /> : <Outlet />}</>;
     
 }
 export default ProtectedCongratulations;

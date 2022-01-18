@@ -37,10 +37,10 @@ function Congratulations() {
             </Box> 
             <Confetti
             width={window.innerWidth}
-            height={window.innerWidth}
+            height={window.innerHeight}
             />
             <Heading mt='10%' size='lg'>
-                Congratulations!
+                Congratulations! You have submitted your application!
             </Heading>
         </Flex>
     )

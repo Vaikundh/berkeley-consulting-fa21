@@ -5,16 +5,15 @@ import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
+import { getStorage, ref as storageRef, uploadBytes, UploadResult } from "firebase/storage"
 
 
 function ApplicationPage() {
     const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm();
-    const [choice, setChoice] = useState('1');
-    const [finished, isFinished] = useState(false)
     const [submitError, setSubmitError] = useState(false)
     const [saveError, setSaveError] = useState(false)
     const [saveSuccess, setSaveSuccess] = useState(false)
-    const [unsaved, setUnsaved] = useState(false)
+    const [image, setImage] = useState<File>()
     const navigate = useNavigate();
     const db = getDatabase();
 
@@ -22,7 +21,7 @@ function ApplicationPage() {
     const email = sessionStorage.getItem("Email")  
     const uid = sessionStorage.getItem("uid")
 
-    const savedData = get(ref(db, "/SavedApps/" + uid)).then((data: DataSnapshot) => {
+    get(ref(db, "/SubmittedApps/" + uid)).then((data: DataSnapshot) => {
         console.log(data.toJSON())
         const jsonData : any = data.toJSON();
         if (jsonData != null) {
@@ -32,13 +31,14 @@ function ApplicationPage() {
                 }
               }
         }
-    }
-    )
+    })
     
 
     // const isInitialMount = useRef(true);
     const onSubmit = (data: any) => {       
         console.log(data);
+        data["Time Submitted"] = new Date().getTime()
+        data["isSubmitted"] = true;
         set(ref(db, "/SubmittedApps/" + uid), data).then(() => {
             setSubmitError(false);
             navigate("/congratulations");
@@ -50,7 +50,8 @@ function ApplicationPage() {
 
     const onSave = (data: any) => {
         console.log(data);
-        set(ref(db, "/SavedApps/" + uid), data).then(() => {
+        data["isSubmitted"] = false;
+        set(ref(db, "/SubmittedApps/" + uid), data).then(() => {
             setSaveError(false);
             setSaveSuccess(true);
         }).catch((error) => {
@@ -85,6 +86,21 @@ function ApplicationPage() {
         }).catch((error) => {
             console.log('error');
         });
+    }
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files != null) {
+            setImage(e.target.files[0]);
+        }
+    }
+
+    const storage = getStorage();
+    const storRef = storageRef(storage, "" + uid)
+    const handleUpload = (file: File) => {
+        uploadBytes(storRef, file).then((snapshot : UploadResult) => {
+            console.log()
+        })
+        return true;
     }
 
     return (
@@ -188,7 +204,7 @@ function ApplicationPage() {
                         >
                             Resume Upload
                         </FormLabel>
-                        <Input accept='.jpg' type='file' {...register('Resume')}/>
+                        <Input type='file' {...register('Resume')}/>
                         <FormHelperText>Putting together a resume can be daunting, so we've put together some tips and a template for you on our FAQ page.</FormHelperText>
                     </FormControl>
                     
@@ -207,7 +223,7 @@ function ApplicationPage() {
                     
                     <FormControl isRequired> 
                         <FormLabel htmlFor='photo' fontFamily="P052" fontStyle="normal" mt='1.5%'> Photo of yourself </FormLabel>
-                        <Input type='file' {...register('Photo')}/>
+                        <Input type='file' {...register('Photo')} onChange={handleImageChange}/>
                         <FormHelperText>This is not used to evaluate your application and is only seen after interviews.</FormHelperText>
                     </FormControl>
                     
@@ -272,7 +288,7 @@ function ApplicationPage() {
                     </FormControl>  
                     
                     <Button mt="1%" mb="1%" onClick={() => onSave(getValues())}>Save</Button>
-                    <Button type="submit" mt="1%" ml='1%' mb="1%" >Submit</Button>
+                    <Button type="submit" mt="1%" ml='1%' mb="1%">Submit</Button>
                     
                 </Box>
             </Flex>

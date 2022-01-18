@@ -79,6 +79,7 @@ function Signup(props: SignUpProps) {
                 updateError("Passwords do not match.")
             }
     }
+    const [show, setShow] = React.useState(false)
 
     return (
         <Flex height="100vh">
@@ -184,6 +185,7 @@ function Signup(props: SignUpProps) {
                                         placeholder="password"
                                         borderColor="darkgrey"
                                         mb={5}
+                                        type={show ? 'text' : 'password'}
                                     />
                                 </InputGroup>
                                 <InputGroup>
@@ -196,6 +198,7 @@ function Signup(props: SignUpProps) {
                                         placeholder="confirm password"
                                         borderColor="darkgrey"
                                         mb={5}
+                                        type={show ? 'text' : 'password'}
                                     />
                                     <InputRightElement children={<CheckIcon color="green.500" />} />
                                 </InputGroup>
