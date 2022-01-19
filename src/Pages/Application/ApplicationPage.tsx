@@ -1,16 +1,16 @@
-import React,{useRef, Component, useEffect, useState} from 'react';
-import {Input, Center, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, HStack, Stack, Alert, AlertDescription, AlertIcon, AlertTitle, CloseButton} from '@chakra-ui/react';
+import React,{ useState} from 'react';
+import {Input, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, Stack, Alert, AlertDescription, AlertIcon, AlertTitle} from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { useForm, UseFormRegisterReturn } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
 import { getDownloadURL, getStorage, ref as storageRef, uploadBytes, UploadResult } from "firebase/storage"
-import { property } from 'lodash';
+// import { property } from 'lodash';
 
 
-function ApplicationPage() {
-    const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm();
+function ApplicationPage(): JSX.Element {
+    const { register, handleSubmit, getValues, setValue} = useForm();
     const [submitError, setSubmitError] = useState(false)
     const [saveError, setSaveError] = useState(false)
     const [saveSuccess, setSaveSuccess] = useState(false)
@@ -28,6 +28,7 @@ function ApplicationPage() {
 
     get(ref(db, "/SubmittedApps/" + uid)).then((data: DataSnapshot) => {
         console.log(data.toJSON())
+        // eslint-disable-next-line
         const jsonData : any = data.toJSON();
         if (jsonData != null) {
             for (const property in jsonData) {
@@ -41,9 +42,9 @@ function ApplicationPage() {
         .then((url) => {
             const xhr = new XMLHttpRequest();
             xhr.responseType = 'blob';
-            xhr.onload = (event) => {
-                setValue("Photo", xhr.response);
-            };
+            // xhr.onload = (event) => {
+            //     setValue("Photo", xhr.response);
+            // };
             xhr.open('GET', url);
             xhr.send();
     })
@@ -51,9 +52,9 @@ function ApplicationPage() {
         .then((url) => {
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
-        xhr.onload = (event) => {
-            setValue("Resume", xhr.response);
-        };
+        // xhr.onload = (event) => {
+        //     setValue("Resume", xhr.response);
+        // };
         xhr.open('GET', url);
         xhr.send();
     })
@@ -61,9 +62,9 @@ function ApplicationPage() {
         .then((url) => {
             const xhr = new XMLHttpRequest();
             xhr.responseType = 'blob';
-            xhr.onload = (event) => {
-                setValue("Transcript", xhr.response);
-            };
+            // xhr.onload = (event) => {
+            //     setValue("Transcript", xhr.response);
+            // };
             xhr.open('GET', url);
             xhr.send();
     })
@@ -72,6 +73,7 @@ function ApplicationPage() {
     
 
     // const isInitialMount = useRef(true);
+    // eslint-disable-next-line
     const onSubmit = (data: any) => {       
         console.log(data);
         data["Time Submitted"] = new Date().getTime()
@@ -85,6 +87,7 @@ function ApplicationPage() {
         })  
     };
 
+    // eslint-disable-next-line
     const onSave = (data: any) => {
         console.log(data);
         data["isSubmitted"] = false;
@@ -129,11 +132,12 @@ function ApplicationPage() {
             sessionStorage.removeItem("Auth Token");
             sessionStorage.removeItem('Email');
             sessionStorage.removeItem('uid');
-        }).catch((error) => {
-            console.log('error');
-        });
+        })
+        // .catch((error) => {
+        //     console.log('error');
+        // });
     }
-
+    // eslint-disable-next-line
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, f: (arg0: File) => any) => {
         if (e.target.files != null) {
             f(e.target.files[0]);

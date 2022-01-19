@@ -1,11 +1,11 @@
-import React,{useRef, Component, useEffect, useState} from 'react';
-import {Heading, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text} from '@chakra-ui/react';
+import React from 'react';
+import {Heading, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import Confetti from 'react-confetti';
 
-function Congratulations() {
+function Congratulations(): JSX.Element {
     const email = sessionStorage.getItem("Email")
     const navigate = useNavigate();
     const logOut = async () => {
@@ -16,7 +16,7 @@ function Congratulations() {
             sessionStorage.removeItem('Email');
             sessionStorage.removeItem('uid');
         }).catch((error) => {
-            console.log('error');
+            console.log(error);
         });
     }
 
