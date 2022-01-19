@@ -26,7 +26,7 @@ const overrides = {
       baseStyles: {
         color: "#211E61",
         fontSize: "5xl",
-        fontFamily: "P052",
+        fontFamily: "Dosis",
         fontStyle: "normal",
         fontWeight: "bold",
         mb: "12%",

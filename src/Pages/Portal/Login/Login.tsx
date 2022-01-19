@@ -94,6 +94,7 @@ function Login(props: LoginProps): JSX.Element {
                 <Flex direction="column" width="60%" alignItems="center" justifyContent="start">
                     <Text
                         color="#211E61"
+                        fontFamily='Dosis'
                         fontSize="5xl"
                         fontStyle="normal"
                         fontWeight="bold"
@@ -186,14 +187,14 @@ function Login(props: LoginProps): JSX.Element {
             </Flex>
             
             <Box flex="1" bg="#211E61">
+                
+                <Flex direction="column" alignItems="center" pt="15%">
                 <Image
                     boxSize='125px'
                     objectFit='cover'
                     src={logo}
                     alt='BC Logo'
-                    mt='5px'
                 />
-                <Flex direction="column" alignItems="center" pt="15%">
                     <Text
                         color="white"
                         fontSize={{

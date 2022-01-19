@@ -5,15 +5,15 @@ const Fonts: React.FC = () => (
   <Global
     styles={`
           @font-face {
-              font-family: 'P052';
-              src: url('fonts/P052-Bold.ttf');
+              font-family: 'Dosis';
+              src: url('fonts/Dosis/static/Dosis-Light.ttf');
               font-weight: 700;
               font-style: normal;
               font-display: block;
           }
           @font-face {
-              font-family: 'P052';
-              src: url('fonts/P052-BoldItalic.ttf');
+              font-family: 'Lato';
+              src: url('fonts/Lato/Lato-Black.ttf');
               font-weight: 500;
               font-style: normal;
               font-display: block;
