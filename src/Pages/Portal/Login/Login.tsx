@@ -12,18 +12,19 @@ import {
     Image
 } from '@chakra-ui/react'
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import {
     getAuth,
     signInWithEmailAndPassword,
-    signInWithPopup,
-    GoogleAuthProvider,
+    // signInWithPopup,
+    // GoogleAuthProvider,
 } from 'firebase/auth'
 import firebase_app from '../../../firebase'
 // import { getDatabase, ref, get } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import logo from '../image.png';
+import wdb from '../../../wdb.png'
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -45,25 +46,25 @@ function Login(props: LoginProps): JSX.Element {
 
     const navigate = useNavigate();
 
-    const signInWithGoogle = async () => {
-        const auth = getAuth(firebase_app)
-        const provider = new GoogleAuthProvider()
-        await signInWithPopup(auth, provider)
-        // eslint-disable-next-line
-            .then((userCredential: any) => {
-                const user = userCredential.user
-                const token = userCredential._tokenResponse.refreshToken
-                sessionStorage.setItem('Auth Token', token)
-                sessionStorage.setItem('Email', user.email);
-                sessionStorage.setItem('uid', user.uid);
-                navigate("/application");
-                return user
-            })
-            .catch((error) => {
-                const errorCode = error.code
-                updateError(errorCode)
-            })
-    }
+    // const signInWithGoogle = async () => {
+    //     const auth = getAuth(firebase_app)
+    //     const provider = new GoogleAuthProvider()
+    //     await signInWithPopup(auth, provider)
+    //     // eslint-disable-next-line
+    //         .then((userCredential: any) => {
+    //             const user = userCredential.user
+    //             const token = userCredential._tokenResponse.refreshToken
+    //             sessionStorage.setItem('Auth Token', token)
+    //             sessionStorage.setItem('Email', user.email);
+    //             sessionStorage.setItem('uid', user.uid);
+    //             navigate("/application");
+    //             return user
+    //         })
+    //         .catch((error) => {
+    //             const errorCode = error.code
+    //             updateError(errorCode)
+    //         })
+    // }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const auth = getAuth(firebase_app)
@@ -89,7 +90,7 @@ function Login(props: LoginProps): JSX.Element {
     const show = false;
     return (
         <Flex height="100vh">
-            <Flex flex="2.5" bg="#F8F8F8" alignItems="start" justifyContent="center" pt="5%">
+            <Flex flex="2.5" bg="#FFFFFF" alignItems="start" justifyContent="center" pt="5%">
                 <Flex direction="column" width="60%" alignItems="center" justifyContent="start">
                     <Text
                         color="#211E61"
@@ -102,7 +103,7 @@ function Login(props: LoginProps): JSX.Element {
                         BC Application Portal
                     </Text>
                     <HStack spacing="30px" mb={30}>
-                        <Button
+                        {/* <Button
                             onClick={signInWithGoogle}
                             fontSize="40px"
                             borderRadius="100px"
@@ -121,7 +122,7 @@ function Login(props: LoginProps): JSX.Element {
                             margin={0}
                         >
                             <FcGoogle />
-                        </Button>
+                        </Button> */}
                     </HStack>
                     <Text color="red">{LogInError}</Text>
                     <FormControl>
@@ -172,8 +173,18 @@ function Login(props: LoginProps): JSX.Element {
                             </Flex>
                         </form>
                     </FormControl>
+                    <Image
+                        src={wdb}
+                        alt="Created and Designed by Web Development at Berkeley"
+                        height="100px"
+                        flex='center'
+                        padding='15px'
+                        mt='20%'
+                    />
                 </Flex>
+                
             </Flex>
+            
             <Box flex="1" bg="#211E61">
                 <Image
                     boxSize='125px'
@@ -232,6 +243,7 @@ function Login(props: LoginProps): JSX.Element {
                     </Button>
                 </Flex>
             </Box>
+            
         </Flex>
     )
 }

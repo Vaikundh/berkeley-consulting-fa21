@@ -1,11 +1,12 @@
 import React,{ useState} from 'react';
-import {Input, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, Stack, Alert, AlertDescription, AlertIcon, AlertTitle} from '@chakra-ui/react';
+import {Input, Image, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Select, Textarea, Text, FormControl, FormLabel, FormHelperText, Heading, Radio, RadioGroup, Stack, Alert, AlertDescription, AlertIcon, AlertTitle} from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
 import { getDownloadURL, getStorage, ref as storageRef, uploadBytes, UploadResult } from "firebase/storage"
+import wdb from '../../wdb.png'
 // import { property } from 'lodash';
 
 
@@ -346,7 +347,15 @@ function ApplicationPage(): JSX.Element {
                     <Button type="submit" mt="1%" ml='1%' mb="1%">Submit</Button>
                     
                 </Box>
+                
             </Flex>
+            <Image
+                src={wdb}
+                alt="Created and Designed by Web Development at Berkeley"
+                height="100px"
+                flex='center'
+                padding='10px'
+             />
                 {/* <HStack spacing='24px'>
                     <Button mt="1%" onClick={() => onSave(getValues())}>Save</Button>
                     <Button type="submit" mt="1%">Submit</Button>
