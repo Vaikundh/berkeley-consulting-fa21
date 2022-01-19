@@ -9,6 +9,7 @@ import {
     FormControl,
     HStack,
     InputLeftElement,
+    Image
 } from '@chakra-ui/react'
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { FcGoogle } from 'react-icons/fc'
@@ -20,7 +21,9 @@ import {
     GoogleAuthProvider,
 } from 'firebase/auth'
 import firebase_app from '../../../firebase'
-import { useNavigate } from "react-router-dom";
+import { getDatabase, ref, get } from "firebase/database";
+import { useNavigate , Navigate, Outlet} from "react-router-dom";
+import logo from '../image.png';
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -70,8 +73,10 @@ function Login(props: LoginProps) {
                 sessionStorage.setItem('Auth Token', token)
                 sessionStorage.setItem('Email', user.email);
                 sessionStorage.setItem('uid', user.uid);
+                
                 navigate("/application");
-                return user
+                return user;
+                // return user
             })
             .catch((error) => {
                 const errorCode= error.code
@@ -87,13 +92,12 @@ function Login(props: LoginProps) {
                     <Text
                         color="#211E61"
                         fontSize="5xl"
-                        fontFamily="P052"
                         fontStyle="normal"
                         fontWeight="bold"
                         mb="12%"
                         mt="7%"
                     >
-                        Welcome Back!
+                        BC Application Portal
                     </Text>
                     <HStack spacing="30px" mb={30}>
                         <Button
@@ -169,7 +173,17 @@ function Login(props: LoginProps) {
                 </Flex>
             </Flex>
             <Box flex="1" bg="#211E61">
-                <Flex direction="column" alignItems="center" pt="60%">
+                <Image
+                    boxSize='125px'
+                    objectFit='cover'
+                    src={logo}
+                    alt='BC Logo'
+                    mt='5px'
+                    mr='5px'
+                    display="flex"
+                    justifyContent='flex-end'
+                />
+                <Flex direction="column" alignItems="center" pt="15%">
                     <Text
                         color="white"
                         fontSize={{
@@ -178,20 +192,21 @@ function Login(props: LoginProps) {
                             lg: '36px',
                             xl: '48px',
                         }}
-                        fontFamily="P052"
                         fontStyle="normal"
                         fontWeight="bold"
+                        mb="10%"
                     >
-                        New? Join BC!
+                        New? Start Here.
                     </Text>
                     <Text
                         color="white"
                         fontSize="28px"
-                        fontFamily="P052"
                         fontStyle="normal"
-                        fontWeight="bold"
+                        fontWeight="normal"
+                        textAlign='center'
+                        width='90%'
                     >
-                        Lorem Ipsum
+                        At Berkeley Consulting, we're searching for the brightest minds in Berkeley to help solve important problems for incredible clients.
                     </Text>
                     <Button
                         borderRadius="100px"

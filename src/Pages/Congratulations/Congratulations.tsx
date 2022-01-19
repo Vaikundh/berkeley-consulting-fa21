@@ -40,7 +40,7 @@ function Congratulations() {
             height={window.innerHeight}
             />
             <Heading mt='10%' size='lg'>
-                Congratulations! You have submitted your application!
+                We thank you for taking the time to apply to Berkeley Consulting.
             </Heading>
         </Flex>
     )

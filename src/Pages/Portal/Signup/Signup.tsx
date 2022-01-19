@@ -10,6 +10,7 @@ import {
     InputGroup,
     InputLeftElement,
     InputRightElement,
+    Image
 } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
@@ -17,6 +18,7 @@ import { EmailIcon, LockIcon, CheckIcon } from '@chakra-ui/icons'
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import firebase_app from '../../../firebase'
 import { useNavigate } from "react-router-dom";
+import logo from '../image.png';
 
 interface SignUpProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -84,26 +86,34 @@ function Signup(props: SignUpProps) {
     return (
         <Flex height="100vh">
             <Box flex="1" bg="#211E61">
-                <Flex direction="column" alignItems="center" pt="40%">
+                <Image
+                    boxSize='125px'
+                    objectFit='cover'
+                    src={logo}
+                    alt='BC Logo'
+                    mt='5px'
+                    ml='5px'
+                />
+                <Flex direction="column" alignItems="center" pt="10%">
                     <Text
                         textAlign="center"
                         color="white"
                         fontSize={{ base: '18px', md: '24px', lg: '36px', xl: '48px' }}
-                        fontFamily="P052"
                         fontStyle="normal"
                         fontWeight="bold"
-                        mt="10%"
+                        mb="7%"
                     >
-                        Already have an account?
+                        Already have an account? Log in.
                     </Text>
                     <Text
                         color="white"
                         fontSize="28px"
-                        fontFamily="P052"
                         fontStyle="normal"
-                        fontWeight="bold"
+                        fontWeight="normal"
+                        textAlign='center'
+                        width='90%'
                     >
-                        Lorem Ipsum
+                        At Berkeley Consulting, we're searching for the brightest minds in Berkeley to help solve important problems for incredible clients.
                     </Text>
                     <Button
                         borderRadius="100px"
@@ -129,7 +139,6 @@ function Signup(props: SignUpProps) {
                     <Text
                         color="#211E61"
                         fontSize="5xl"
-                        fontFamily="P052"
                         fontStyle="normal"
                         fontWeight="bold"
                         mb="10%"
