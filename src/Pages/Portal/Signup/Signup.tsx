@@ -30,13 +30,12 @@ type Inputs = {
     validatepass: string
 }
 
-function Signup(props: SignUpProps) {
+function Signup(props: SignUpProps): JSX.Element {
     const [signUpError, updateError] = useState('')
     const {
         register,
-        handleSubmit,
-        watch,
-        formState: { errors },
+        handleSubmit
+        // formState: { errors },
     } = useForm<Inputs>()
 
     const navigate = useNavigate();
@@ -45,6 +44,7 @@ function Signup(props: SignUpProps) {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
+            // eslint-disable-next-line
             .then((userCredential: any) => {
                 const user = userCredential.user
                 const token = userCredential._tokenResponse.refreshToken
@@ -64,6 +64,7 @@ function Signup(props: SignUpProps) {
             const auth = getAuth(firebase_app)
             if (data.password === data.validatepass) {
                 await createUserWithEmailAndPassword(auth, data.email, data.password).then(
+                    // eslint-disable-next-line
                     (userCredential: any) => {
                         const user = userCredential.user
                         const token = userCredential._tokenResponse.refreshToken
@@ -81,7 +82,7 @@ function Signup(props: SignUpProps) {
                 updateError("Passwords do not match.")
             }
     }
-    const [show, setShow] = React.useState(false)
+    const [show] = React.useState(false)
 
     return (
         <Flex height="100vh">

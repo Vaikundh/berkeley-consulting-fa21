@@ -21,8 +21,8 @@ import {
     GoogleAuthProvider,
 } from 'firebase/auth'
 import firebase_app from '../../../firebase'
-import { getDatabase, ref, get } from "firebase/database";
-import { useNavigate , Navigate, Outlet} from "react-router-dom";
+// import { getDatabase, ref, get } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 import logo from '../image.png';
 
 interface LoginProps {
@@ -34,13 +34,13 @@ type Inputs = {
     password: string
 }
 
-function Login(props: LoginProps) {
+function Login(props: LoginProps): JSX.Element {
     const [LogInError, updateError] = useState('')
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
+        // watch,
+        // formState: { errors },
     } = useForm<Inputs>()
 
     const navigate = useNavigate();
@@ -49,6 +49,7 @@ function Login(props: LoginProps) {
         const auth = getAuth(firebase_app)
         const provider = new GoogleAuthProvider()
         await signInWithPopup(auth, provider)
+        // eslint-disable-next-line
             .then((userCredential: any) => {
                 const user = userCredential.user
                 const token = userCredential._tokenResponse.refreshToken
@@ -67,6 +68,7 @@ function Login(props: LoginProps) {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const auth = getAuth(firebase_app)
         await signInWithEmailAndPassword(auth, data.email, data.password)
+            // eslint-disable-next-line
             .then((userCredential: any) => {
                 const user = userCredential.user
                 const token = userCredential._tokenResponse.refreshToken
@@ -84,7 +86,7 @@ function Login(props: LoginProps) {
             })
         
     }
-    const [show, setShow] = React.useState(false)
+    const show = false;
     return (
         <Flex height="100vh">
             <Flex flex="2.5" bg="#F8F8F8" alignItems="start" justifyContent="center" pt="5%">
@@ -179,9 +181,6 @@ function Login(props: LoginProps) {
                     src={logo}
                     alt='BC Logo'
                     mt='5px'
-                    mr='5px'
-                    display="flex"
-                    justifyContent='flex-end'
                 />
                 <Flex direction="column" alignItems="center" pt="15%">
                     <Text

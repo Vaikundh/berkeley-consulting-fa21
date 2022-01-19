@@ -3,7 +3,7 @@ import Login from './Login/Login'
 import Signup from './Signup/Signup'
 import { Box } from '@chakra-ui/react'
 
-const LoginOrSignup = () => {
+function LoginOrSignup(): JSX.Element {
     const [isLogin, updateIsLogin] = useState(true)
 
     return (
