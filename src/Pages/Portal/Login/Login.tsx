@@ -9,7 +9,7 @@ import {
     FormControl,
     HStack,
     InputLeftElement,
-    Image
+    Image,
 } from '@chakra-ui/react'
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 // import { FcGoogle } from 'react-icons/fc'
@@ -22,8 +22,8 @@ import {
 } from 'firebase/auth'
 import firebase_app from '../../../firebase'
 // import { getDatabase, ref, get } from "firebase/database";
-import { useNavigate } from "react-router-dom";
-import logo from '../image.png';
+import { useNavigate } from 'react-router-dom'
+import logo from '../image.png'
 import wdb from '../../../wdb.png'
 
 interface LoginProps {
@@ -44,7 +44,7 @@ function Login(props: LoginProps): JSX.Element {
         // formState: { errors },
     } = useForm<Inputs>()
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     // const signInWithGoogle = async () => {
     //     const auth = getAuth(firebase_app)
@@ -74,36 +74,33 @@ function Login(props: LoginProps): JSX.Element {
                 const user = userCredential.user
                 const token = userCredential._tokenResponse.refreshToken
                 sessionStorage.setItem('Auth Token', token)
-                sessionStorage.setItem('Email', user.email);
-                sessionStorage.setItem('uid', user.uid);
-                
-                navigate("/application");
-                return user;
+                sessionStorage.setItem('Email', user.email)
+                sessionStorage.setItem('uid', user.uid)
+
+                navigate('/application')
+                return user
                 // return user
             })
             .catch((error) => {
-                const errorCode= error.code
+                const errorCode = error.code
                 updateError(errorCode)
             })
-        
+
     }
-    const show = false;
+    const show = false
     return (
-        <Flex height="100vh">
-            <Flex flex="2.5" bg="#FFFFFF" alignItems="start" justifyContent="center" pt="5%">
-                <Flex direction="column" width="60%" alignItems="center" justifyContent="start">
+        <Flex height='100vh'>
+            <Flex flex='2.5' bg='#FFFFFF' alignItems='start' justifyContent='center' pt='5%'>
+                <Flex direction='column' width='60%' alignItems='center' justifyContent='start'>
                     <Text
-                        color="#211E61"
-                        fontFamily='Dosis'
-                        fontSize="5xl"
-                        fontStyle="normal"
-                        fontWeight="bold"
-                        mb="12%"
-                        mt="7%"
+                        color='#211E61'
+                        textStyle='heading'
+                        mb='12%'
+                        mt='7%'
                     >
                         BC Application Portal
                     </Text>
-                    <HStack spacing="30px" mb={30}>
+                    <HStack spacing='30px' mb={30}>
                         {/* <Button
                             onClick={signInWithGoogle}
                             fontSize="40px"
@@ -125,49 +122,49 @@ function Login(props: LoginProps): JSX.Element {
                             <FcGoogle />
                         </Button> */}
                     </HStack>
-                    <Text color="red">{LogInError}</Text>
+                    <Text color='red'>{LogInError}</Text>
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <Flex direction="column" justifyContent="center" alignItems="center">
+                            <Flex direction='column' justifyContent='center' alignItems='center'>
                                 <InputGroup>
                                     <InputLeftElement
-                                        pointerEvents="none"
-                                        children={<EmailIcon color="gray.300" />}
+                                        pointerEvents='none'
+                                        children={<EmailIcon color='gray.300' />}
                                     />
                                     <Input
                                         {...register('email')}
-                                        placeholder="email@berkeley.edu"
-                                        borderColor="darkgrey"
+                                        placeholder='email@berkeley.edu'
+                                        borderColor='darkgrey'
                                         mb={5}
                                     />
                                 </InputGroup>
                                 <InputGroup>
                                     <InputLeftElement
-                                        pointerEvents="none"
-                                        children={<LockIcon color="gray.300" />}
+                                        pointerEvents='none'
+                                        children={<LockIcon color='gray.300' />}
                                     />
                                     <Input
                                         {...register('password')}
                                         type={show ? 'text' : 'password'}
-                                        placeholder="password"
-                                        borderColor="darkgrey"
+                                        placeholder='password'
+                                        borderColor='darkgrey'
                                     />
                                 </InputGroup>
                                 <Button
-                                    type="submit"
-                                    borderRadius="100px"
-                                    variant="outline"
-                                    boxShadow="base"
-                                    bgColor="#211E61"
-                                    color="white"
+                                    type='submit'
+                                    borderRadius='100px'
+                                    variant='outline'
+                                    boxShadow='base'
+                                    bgColor='#211E61'
+                                    color='white'
                                     _hover={{
                                         color: '#000000',
                                         bg: '#F8F8F8',
                                         borderColor: '#211E61',
                                     }}
                                     mt={5}
-                                    height="60px"
-                                    width="35%"
+                                    height='60px'
+                                    width='35%'
                                 >
                                     Log In
                                 </Button>
@@ -176,75 +173,76 @@ function Login(props: LoginProps): JSX.Element {
                     </FormControl>
                     <Image
                         src={wdb}
-                        alt="Created and Designed by Web Development at Berkeley"
-                        height="100px"
+                        alt='Created and Designed by Web Development at Berkeley'
+                        height='100px'
                         flex='center'
                         padding='15px'
                         mt='20%'
                     />
                 </Flex>
-                
+
             </Flex>
-            
-            <Box flex="1" bg="#211E61">
-                
-                <Flex direction="column" alignItems="center" pt="15%">
-                <Image
-                    boxSize='125px'
-                    objectFit='cover'
-                    src={logo}
-                    alt='BC Logo'
-                />
+
+            <Box flex='1' bg='#211E61'>
+
+                <Flex direction='column' alignItems='center' pt='15%'>
+                    <Image
+                        boxSize='125px'
+                        objectFit='cover'
+                        src={logo}
+                        alt='BC Logo'
+                    />
                     <Text
-                        color="white"
+                        color='white'
                         fontSize={{
                             base: '18px',
                             md: '24px',
                             lg: '36px',
                             xl: '48px',
                         }}
-                        fontStyle="normal"
-                        fontWeight="bold"
-                        mb="10%"
+                        fontStyle='normal'
+                        fontWeight='bold'
+                        mb='10%'
                     >
                         New? Start Here.
                     </Text>
                     <Text
-                        color="white"
-                        fontSize="28px"
-                        fontStyle="normal"
-                        fontWeight="normal"
+                        color='white'
+                        fontSize='28px'
+                        fontStyle='normal'
+                        fontWeight='normal'
                         textAlign='center'
                         width='90%'
                     >
-                        At Berkeley Consulting, we're searching for the brightest minds in Berkeley to help solve important problems for incredible clients.
+                        At Berkeley Consulting, we're searching for the brightest minds in Berkeley to help solve
+                        important problems for incredible clients.
                     </Text>
                     <Button
-                        borderRadius="100px"
-                        variant="outline"
+                        borderRadius='100px'
+                        variant='outline'
                         fontSize={{
                             base: '8px',
                             md: '12px',
                             lg: '14px',
                             xl: '16px',
                         }}
-                        bgColor="#211E61"
-                        color="#F8F8F8"
+                        bgColor='#211E61'
+                        color='#F8F8F8'
                         _hover={{
                             color: '#211E61',
                             bg: '#F8F8F8',
                             borderColor: '#211E61',
                         }}
-                        mt="10%"
-                        height="60px"
-                        width="40%"
+                        mt='10%'
+                        height='60px'
+                        width='40%'
                         onClick={() => props.updateIsLogin(false)}
                     >
                         Create Account
                     </Button>
                 </Flex>
             </Box>
-            
+
         </Flex>
     )
 }
