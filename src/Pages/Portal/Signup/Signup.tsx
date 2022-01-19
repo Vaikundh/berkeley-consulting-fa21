@@ -102,6 +102,7 @@ function Signup(props: SignUpProps): JSX.Element {
                         fontSize={{ base: '18px', md: '24px', lg: '36px', xl: '48px' }}
                         fontFamily="Dosis"
                         fontStyle="normal"
+                        mt='17%'
                         mb="7%"
                     >
                         Already have an account? Log in.
@@ -143,6 +144,7 @@ function Signup(props: SignUpProps): JSX.Element {
                         fontFamily="Dosis"
                         fontStyle="normal"
                         fontWeight="bold"
+                        fontSize='80px'
                         mb="10%"
                         mt="6%"
                     >
@@ -170,7 +172,7 @@ function Signup(props: SignUpProps): JSX.Element {
                             <FcGoogle />
                         </Button> */}
                     </HStack>
-                    <Text color="red">{signUpError}</Text>
+                    <Text fontSize='20px' color="red">{signUpError}</Text>
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Flex direction="column" justifyContent="center" alignItems="center">

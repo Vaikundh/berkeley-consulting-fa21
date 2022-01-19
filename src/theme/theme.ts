@@ -23,28 +23,28 @@ const theme = extendTheme({
 
     // Other foundational style overrides go here
     components: {
-        Button: {
-            baseStyle: {
-                borderRadius: '100px',
-                variant: 'outline',
-                boxShadow: 'base',
-                bgColor: '#211E61',
-                color: 'white',
-                _hover: {
-                    color: '#000000',
-                    bg: '#F8F8F8',
-                    borderColor: '#211E61',
-                },
-                mt: 5,
-                height: '60px',
-                width: '35%',
-            },
-        },
+        // Button: {
+        //     baseStyle: {
+        //         borderRadius: '100px',
+        //         variant: 'outline',
+        //         boxShadow: 'base',
+        //         bgColor: '#F8F8F8',
+        //         color: 'white',
+        //         _hover: {
+        //             color: '#000000',
+        //             bg: '#F8F8F8',
+        //             borderColor: '#211E61',
+        //         },
+        //         mt: 5,
+        //         height: '60px',
+        //         width: '25%',
+        //     },
+        // },
         Text: {
             baseStyle: {
                 color: '#211E61',
                 textStyle: 'body',
-                mb: '12%',
+                mb: '1%',
                 mt: '7%',
             },
         },

@@ -170,7 +170,7 @@ function ApplicationPage(): JSX.Element {
                     </Menu>
                 </Flex>
             </Box> 
-            <Heading>Berkeley Consulting Spring 2022 Application</Heading>          
+            <Heading fontSize='50px' mb='1%'>Berkeley Consulting Spring 2022 Application</Heading>          
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex justifyContent='center'>
                 <Box width='70%'>
@@ -242,12 +242,12 @@ function ApplicationPage(): JSX.Element {
                         </Select>
                     </FormControl>
                     
-                    <Heading size='lg' mt="2%">Section 2: Personal Documents</Heading>
+                    <Heading size='xl' mt="2%">Section 2: Personal Documents</Heading>
                     <Text
                         color="#211E61"
                         fontSize="xl"
                         fontStyle="normal"
-                        fontWeight="bold"
+                        // fontWeight="bold"
                         mt='1%'
                     >
                         This section is used to roughly gauge your academic/professional interests.
@@ -283,49 +283,57 @@ function ApplicationPage(): JSX.Element {
                         <FormHelperText>This is not used to evaluate your application and is only seen after interviews.</FormHelperText>
                     </FormControl>
                     
-                    <Heading size="lg" mt="2%">Section 3: Personal Essays</Heading>
+                    <Heading size="xl" mt="2%">Section 3: Personal Essays</Heading>
                     <Text
                         color="#211E61"
-                        fontSize="xl"
+                        // fontSize="xl"
                         
+                        // color="#211E61"
+                        fontSize="xl"
                         fontStyle="normal"
-                        fontWeight="bold"
-                        mt = '1%'
+                        // fontWeight="bold"
+                        mt='1%'
                     >
                         The final section of our application involves two 250-word essays. If reapplying you may choose to reuse your response to prompt 1, but please submit a new response to prompt 2.
                     </Text>
                     
-                    <FormControl >
-                        <RadioGroup value={choice} onChange={setChoice}>
-                            <Stack direction='row' spacing={5} {...register('Prompt 1 Choice')}>
-                                <Radio value='Choice 1' >Choice 1</Radio>
-                                <Radio value='Choice 2'>Choice 2</Radio>
-                            </Stack>
-                        </RadioGroup>
-                    </FormControl>
-                    
                     <FormControl isRequired>
                         <FormLabel htmlFor="choice-1"
-                            mt = '1.5%'
-                            
+                            color="#211E61"
+                            fontSize="xl"
                             fontStyle="normal"
-                            fontWeight="bold"> Prompt 1: We allow you to choose between 2 prompts for this essay.</FormLabel>
+                            fontWeight="bold"
+                            mt='1%'
+                            > Prompt 1: We allow you to choose between 2 prompts for this essay.</FormLabel>
                         <Box ml='5%'>
                         <Text
-                        
+                        color="#211E61"
+                        fontSize="xl"
                         fontStyle="normal"
-                        fontWeight="bold"
+                        fontWeight="medium"
+                        mt='1%'
                         > 
                             Choice 1: What is an activity or interest you have pursued deeply? Describe your experience in doing so. This can relate to an organization you've been a part of, an individual achievement, or any topic you are passionate about.
                         </Text>
                         <Text
-                            
+                            color="#211E61"
+                            fontSize="xl"
                             fontStyle="normal"
-                            fontWeight="bold"
+                            fontWeight="medium"
+                            mt='1%'
                         > 
                             Choice 2: What is a significant challenge you had to overcome? How have you grown from that experience?
                         </Text>
+                        <FormControl >
+                            <RadioGroup value={choice} onChange={setChoice}>
+                                <Stack direction='row' spacing={5} {...register('Prompt 1 Choice')}>
+                                    <Radio value='Choice 1' >Choice 1</Radio>
+                                    <Radio value='Choice 2'>Choice 2</Radio>
+                                </Stack>
+                            </RadioGroup>
+                        </FormControl>
                         </Box>
+                        
                         <Textarea mt='1%' placeholder='Prompt 1 Response (max. 250 words). NOTE: Please indicate your prompt choice at the top of your response.' {...register('Prompt 1')}/>
                     </FormControl>
                     

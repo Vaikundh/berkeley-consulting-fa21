@@ -95,12 +95,13 @@ function Login(props: LoginProps): JSX.Element {
                     <Text
                         color='#211E61'
                         textStyle='heading'
+                        fontSize='80px'
                         mb='12%'
-                        mt='7%'
+                        // mt='%'
                     >
                         BC Application Portal
                     </Text>
-                    <HStack spacing='30px' mb={30}>
+                    {/* <HStack spacing='30px' mb={30}> */}
                         {/* <Button
                             onClick={signInWithGoogle}
                             fontSize="40px"
@@ -121,8 +122,8 @@ function Login(props: LoginProps): JSX.Element {
                         >
                             <FcGoogle />
                         </Button> */}
-                    </HStack>
-                    <Text color='red'>{LogInError}</Text>
+                    {/* </HStack> */}
+                    <Text fontSize='20px' color='red'>{LogInError}</Text>
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Flex direction='column' justifyContent='center' alignItems='center'>
@@ -177,6 +178,7 @@ function Login(props: LoginProps): JSX.Element {
                         height='100px'
                         flex='center'
                         padding='15px'
+                        textStyle='body'
                         mt='20%'
                     />
                 </Flex>
@@ -202,7 +204,8 @@ function Login(props: LoginProps): JSX.Element {
                         }}
                         fontStyle='normal'
                         fontWeight='bold'
-                        mb='10%'
+                        // mb='10%'
+                        textStyle='heading'
                     >
                         New? Start Here.
                     </Text>
@@ -213,6 +216,7 @@ function Login(props: LoginProps): JSX.Element {
                         fontWeight='normal'
                         textAlign='center'
                         width='90%'
+                        // fontFamily="Dosis"
                     >
                         At Berkeley Consulting, we're searching for the brightest minds in Berkeley to help solve
                         important problems for incredible clients.
