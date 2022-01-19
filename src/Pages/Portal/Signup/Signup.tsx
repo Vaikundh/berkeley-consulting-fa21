@@ -13,12 +13,13 @@ import {
     Image
 } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import { EmailIcon, LockIcon, CheckIcon } from '@chakra-ui/icons'
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth'
 import firebase_app from '../../../firebase'
 import { useNavigate } from "react-router-dom";
 import logo from '../image.png';
+import wdb from '../../../wdb.png'
 
 interface SignUpProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -40,25 +41,25 @@ function Signup(props: SignUpProps): JSX.Element {
 
     const navigate = useNavigate();
 
-    const signInWithGoogle = async () => {
-        const auth = getAuth(firebase_app)
-        const provider = new GoogleAuthProvider()
-        await signInWithPopup(auth, provider)
-            // eslint-disable-next-line
-            .then((userCredential: any) => {
-                const user = userCredential.user
-                const token = userCredential._tokenResponse.refreshToken
-                sessionStorage.setItem('Auth Token', token)
-                sessionStorage.setItem('Email', user.email);
-                sessionStorage.setItem('uid', user.uid);
-                navigate("/application");
-                return user
-            })
-            .catch((error) => {
-                const errorCode = error.code
-                updateError(errorCode)
-            })
-    }
+    // const signInWithGoogle = async () => {
+    //     const auth = getAuth(firebase_app)
+    //     const provider = new GoogleAuthProvider()
+    //     await signInWithPopup(auth, provider)
+    //         // eslint-disable-next-line
+    //         .then((userCredential: any) => {
+    //             const user = userCredential.user
+    //             const token = userCredential._tokenResponse.refreshToken
+    //             sessionStorage.setItem('Auth Token', token)
+    //             sessionStorage.setItem('Email', user.email);
+    //             sessionStorage.setItem('uid', user.uid);
+    //             navigate("/application");
+    //             return user
+    //         })
+    //         .catch((error) => {
+    //             const errorCode = error.code
+    //             updateError(errorCode)
+    //         })
+    // }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
             const auth = getAuth(firebase_app)
@@ -135,7 +136,7 @@ function Signup(props: SignUpProps): JSX.Element {
                     </Button>
                 </Flex>
             </Box>
-            <Flex flex="2.5" bg="#F8F8F8" alignItems="start" justifyContent="center" pt="5%">
+            <Flex flex="2.5" bg="#FFFFFF" alignItems="start" justifyContent="center" pt="5%">
                 <Flex direction="column" width="60%" alignItems="center" justifyContent="start">
                     <Text
                         color="#211E61"
@@ -148,7 +149,7 @@ function Signup(props: SignUpProps): JSX.Element {
                         Welcome!
                     </Text>
                     <HStack spacing="30px" mb={30}>
-                        <Button
+                        {/* <Button
                             onClick={signInWithGoogle}
                             fontSize="40px"
                             borderRadius="100px"
@@ -167,7 +168,7 @@ function Signup(props: SignUpProps): JSX.Element {
                             margin={0}
                         >
                             <FcGoogle />
-                        </Button>
+                        </Button> */}
                     </HStack>
                     <Text color="red">{signUpError}</Text>
                     <FormControl>
@@ -234,6 +235,14 @@ function Signup(props: SignUpProps): JSX.Element {
                             </Flex>
                         </form>
                     </FormControl>
+                    <Image
+                        src={wdb}
+                        alt="Created and Designed by Web Development at Berkeley"
+                        height="100px"
+                        flex='center'
+                        padding='15px'
+                        mt='10%'
+                    />
                 </Flex>
             </Flex>
         </Flex>

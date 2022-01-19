@@ -1,4 +1,4 @@
-import './App.css'
+// import './App.css'
 import LoginOrSignup from './Pages/Portal/LoginOrSignup'
 import { ChakraProvider} from '@chakra-ui/react'
 import ApplicationPage from './Pages/Application/ApplicationPage'
