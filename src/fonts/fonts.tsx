@@ -161,7 +161,7 @@ const styles = `
        url('./fontFiles/dosis-v22-latin-ext_latin-800.svg#Dosis') format('svg'); /* Legacy iOS */
 }
 `
-
+// eslint-disable-next-line
 const Fonts = () => <Global styles={styles} />
 
 export default Fonts

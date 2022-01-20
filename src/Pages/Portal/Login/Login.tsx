@@ -7,7 +7,6 @@ import {
     Flex,
     Text,
     FormControl,
-    HStack,
     InputLeftElement,
     Image,
 } from '@chakra-ui/react'
