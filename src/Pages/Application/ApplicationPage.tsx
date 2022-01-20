@@ -179,11 +179,12 @@ function ApplicationPage(): JSX.Element {
                     </Menu>
                 </Flex>
             </Box> 
-            <Heading fontSize='50px' mb='1%'>Berkeley Consulting Spring 2022 Application</Heading>          
+            <Text fontSize='50px' textStyle='heading'>Berkeley Consulting Spring 2022 Application</Text>
+            <Text fontSize='24px' textStyle='heading' mt="1%" mb='2%' textAlign='center' width='70%'>This application does not have to completed in one go. You may save your answers at any point by clicking the "Save" button located at the bottom of the page and continue editing at a later time, but the "Submit" button is final. Please email our Technical Director at brandon.guo@berkeley.edu if any questions or issues with the portal arise.</Text>
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex justifyContent='center'>
                 <Box width='70%'>
-                    <Heading size="lg" mt="1%">Section 1: Basic Information</Heading>
+                    <Heading fontWeight={400} size="lg" mt="1%">Section 1: Basic Information</Heading>
                     <FormControl isRequired>
                         <FormLabel mt='1%' htmlFor='name' >First and Last Name</FormLabel>
                         <Input placeholder="John Doe" {...register('Name')}></Input>
@@ -251,10 +252,10 @@ function ApplicationPage(): JSX.Element {
                         </Select>
                     </FormControl>
                     
-                    <Heading size='xl' mt="2%">Section 2: Personal Documents</Heading>
+                    <Heading fontWeight={400} size='lg' mt="2%">Section 2: Personal Documents</Heading>
                     <Text
                         color="#211E61"
-                        fontSize="xl"
+                        fontSize="lg"
                         fontStyle="normal"
                         // fontWeight="bold"
                         mt='1%'
@@ -292,18 +293,18 @@ function ApplicationPage(): JSX.Element {
                         <FormHelperText>This is not used to evaluate your application and is only seen after interviews.</FormHelperText>
                     </FormControl>
                     
-                    <Heading size="xl" mt="2%">Section 3: Personal Essays</Heading>
+                    <Heading fontWeight={400} size="lg" mt="2%">Section 3: Personal Essays</Heading>
                     <Text
                         color="#211E61"
                         // fontSize="xl"
                         
                         // color="#211E61"
-                        fontSize="xl"
+                        fontSize="lg"
                         fontStyle="normal"
                         // fontWeight="bold"
                         mt='1%'
                     >
-                        The final section of our application involves two 250-word essays. If reapplying you may choose to reuse your response to prompt 1, but please submit a new response to prompt 2.
+                        The final section of our application involves two 250-word essays. If reapplying you may choose to reuse your response to essay 1, but please submit a new response to essay 2.
                     </Text>
                     
                     <FormControl isRequired>
@@ -311,27 +312,26 @@ function ApplicationPage(): JSX.Element {
                             color="#211E61"
                             fontSize="xl"
                             fontStyle="normal"
-                            fontWeight="bold"
+                            fontWeight="medium"
                             mt='1%'
-                            > Prompt 1: We allow you to choose between 2 prompts for this essay.</FormLabel>
-                        <Box ml='5%'>
+                            > Essay 1: We allow you to choose between 2 prompts for this essay.</FormLabel>
+                        <Box>
                         <Text
                         color="#211E61"
-                        fontSize="xl"
+                        fontSize="lg"
                         fontStyle="normal"
                         fontWeight="medium"
                         mt='1%'
-                        > 
+                        >
                             Choice 1: What is an activity or interest you have pursued deeply? Describe your experience in doing so. This can relate to an organization you've been a part of, an individual achievement, or any topic you are passionate about.
                         </Text>
                         <Text
                             color="#211E61"
-                            fontSize="xl"
+                            fontSize="lg"
                             fontStyle="normal"
                             fontWeight="medium"
                             mt='1%'
-                        > 
-                            Choice 2: What is a significant challenge you had to overcome? How have you grown from that experience?
+                        >Choice 2: What is a significant challenge you had to overcome? How have you grown from that experience?
                         </Text>
                         <FormControl >
                             <RadioGroup value={choice} onChange={setChoice}>
@@ -343,7 +343,7 @@ function ApplicationPage(): JSX.Element {
                         </FormControl>
                         </Box>
                         
-                        <Textarea mt='1%' placeholder='Prompt 1 Response (max. 250 words). NOTE: Please indicate your prompt choice at the top of your response.' {...register('Prompt 1')}/>
+                        <Textarea mt='1%' placeholder='Prompt 1 Response (max. 250 words)' {...register('Prompt 1')}/>
                     </FormControl>
                     
                     {/* <Text
@@ -356,7 +356,12 @@ function ApplicationPage(): JSX.Element {
                         Prompt 2: Pick a company or NGO and discuss an opportunity it has or a problem it faces. Next, suggest a feasible strategic move (or strategic moves) you would make if you were its CEO. Explain your reasoning and describe your idea's intended impact.
                     </Text> */}
                     <FormControl isRequired>
-                        <FormLabel mt='1.5%' htmlFor="choice-2" > Prompt 2: Pick a company or NGO and discuss an opportunity it has or a problem it faces. Next, suggest a feasible strategic move (or strategic moves) you would make if you were its CEO. Explain your reasoning and describe your idea's intended impact. </FormLabel>
+                        <FormLabel mt='1.5%'
+                                   color="#211E61"
+                                   fontSize="xl"
+                                   fontStyle="normal"
+                                   fontWeight="medium"
+                                   htmlFor="choice-2" > Essay 2: Pick a company or NGO and discuss an opportunity it has or a problem it faces. Next, suggest a feasible strategic move (or strategic moves) you would make if you were its CEO. Explain your reasoning and describe your idea's intended impact. </FormLabel>
                         <Textarea placeholder='Prompt 2 Response (max. 250 words)' {...register('Prompt 2')}/>
                     </FormControl>  
                     
@@ -369,7 +374,7 @@ function ApplicationPage(): JSX.Element {
             <Image
                 src={wdb}
                 alt="Created and Designed by Web Development at Berkeley"
-                height="100px"
+                height="75px"
                 flex='center'
                 padding='10px'
              />

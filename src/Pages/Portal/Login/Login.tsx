@@ -174,7 +174,7 @@ function Login(props: LoginProps): JSX.Element {
                     <Image
                         src={wdb}
                         alt='Created and Designed by Web Development at Berkeley'
-                        height='100px'
+                        height='75px'
                         flex='center'
                         padding='15px'
                         textStyle='body'
@@ -202,7 +202,6 @@ function Login(props: LoginProps): JSX.Element {
                             xl: '48px',
                         }}
                         fontStyle='normal'
-                        fontWeight='bold'
                         // mb='10%'
                         textStyle='heading'
                     >

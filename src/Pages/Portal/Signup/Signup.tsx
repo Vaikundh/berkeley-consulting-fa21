@@ -240,7 +240,7 @@ function Signup(props: SignUpProps): JSX.Element {
                     <Image
                         src={wdb}
                         alt="Created and Designed by Web Development at Berkeley"
-                        height="100px"
+                        height="75px"
                         flex='center'
                         padding='15px'
                         mt='10%'

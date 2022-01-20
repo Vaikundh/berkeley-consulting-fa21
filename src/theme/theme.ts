@@ -11,13 +11,13 @@ const theme = extendTheme({
             fontSize: '5xl',
             fontFamily: 'Dosis',
             fontStyle: 'normal',
-            fontWeight: '600',
+            fontWeight: '400',
         },
         body: {
             fontSize: '5xl',
             fontFamily: 'Lato',
             fontStyle: 'normal',
-            fontWeight: '600',
+            fontWeight: '400',
         },
     },
 

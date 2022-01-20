@@ -3,7 +3,7 @@ import {Image, Heading, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex}
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import wdb from '../../wdb.png'
+import Confetti from 'react-confetti'
 
 function Congratulations(): JSX.Element {
     const email = sessionStorage.getItem("Email")
@@ -34,18 +34,11 @@ function Congratulations(): JSX.Element {
                         </MenuList>
                     </Menu>
                 </Flex>
-            </Box> 
+            </Box>
+            <Confetti width={window.innerWidth} height={window.innerHeight} numberOfPieces={750} recycle={false}/>
             <Heading mt='18%' size='lg'>
                 We thank you for taking the time to apply to Berkeley Consulting.
             </Heading>
-            <Image
-                        src={wdb}
-                        alt="Created and Designed by Web Development at Berkeley"
-                        height="100px"
-                        flex='center'
-                        padding='15px'
-                        mt='12%'
-            />
         </Flex>
     )
 }
