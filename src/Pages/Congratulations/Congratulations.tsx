@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Heading, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex} from '@chakra-ui/react';
+import {Heading, Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { ChevronDownIcon } from '@chakra-ui/icons'
