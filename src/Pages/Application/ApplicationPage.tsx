@@ -85,7 +85,16 @@ function ApplicationPage(): JSX.Element {
         }).catch((error) => {
             console.log(error);
             setSubmitError(true);
-        })  
+        })
+        if (image) {
+            handleUpload(image, "image")
+        }
+        if (transcript) {
+            handleUpload(transcript, "transcript")
+        }
+        if (resume) {
+            handleUpload(resume, "resume")
+        }
     };
 
     // eslint-disable-next-line
