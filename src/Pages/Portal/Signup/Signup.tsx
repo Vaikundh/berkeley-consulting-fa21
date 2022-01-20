@@ -5,6 +5,7 @@ import {
     Input,
     Flex,
     Text,
+    Heading,
     FormControl,
     HStack,
     InputGroup,
@@ -88,29 +89,29 @@ function Signup(props: SignUpProps): JSX.Element {
     return (
         <Flex height="100vh">
             <Box flex="1" bg="#211E61">
-                <Image
-                    boxSize='125px'
-                    objectFit='cover'
-                    src={logo}
-                    alt='BC Logo'
-                    mt='5px'
-                    ml='5px'
-                />
                 <Flex direction="column" alignItems="center" pt="10%">
-                    <Text
+                    <Image
+                        boxSize='125px'
+                        objectFit='cover'
+                        src={logo}
+                        alt='BC Logo'
+                    />
+                    <Heading
                         textAlign="center"
                         color="white"
                         fontSize={{ base: '18px', md: '24px', lg: '36px', xl: '48px' }}
+                        fontFamily="Dosis"
                         fontStyle="normal"
-                        fontWeight="bold"
+                        mt='17%'
                         mb="7%"
                     >
                         Already have an account? Log in.
-                    </Text>
+                    </Heading>
                     <Text
                         color="white"
                         fontSize="28px"
                         fontStyle="normal"
+                        fontFamily="Lato"
                         fontWeight="normal"
                         textAlign='center'
                         width='90%'
@@ -138,16 +139,17 @@ function Signup(props: SignUpProps): JSX.Element {
             </Box>
             <Flex flex="2.5" bg="#FFFFFF" alignItems="start" justifyContent="center" pt="5%">
                 <Flex direction="column" width="60%" alignItems="center" justifyContent="start">
-                    <Text
+                    <Heading
                         color="#211E61"
-                        fontSize="5xl"
+                        fontFamily="Dosis"
                         fontStyle="normal"
                         fontWeight="bold"
+                        fontSize='80px'
                         mb="10%"
                         mt="6%"
                     >
                         Welcome!
-                    </Text>
+                    </Heading>
                     <HStack spacing="30px" mb={30}>
                         {/* <Button
                             onClick={signInWithGoogle}
@@ -170,7 +172,7 @@ function Signup(props: SignUpProps): JSX.Element {
                             <FcGoogle />
                         </Button> */}
                     </HStack>
-                    <Text color="red">{signUpError}</Text>
+                    <Text fontSize='20px' color="red">{signUpError}</Text>
                     <FormControl>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Flex direction="column" justifyContent="center" alignItems="center">
