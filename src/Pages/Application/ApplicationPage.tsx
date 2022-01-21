@@ -39,41 +39,10 @@ function ApplicationPage(): JSX.Element {
               }
         }
     })
-    getDownloadURL(storageRef(storage, "" + uid + "/image"))
-        .then((url) => {
-            const xhr = new XMLHttpRequest();
-            xhr.responseType = 'blob';
-            // xhr.onload = (event) => {
-            //     setValue("Photo", xhr.response);
-            // };
-            xhr.open('GET', url);
-            xhr.send();
-    })
-    getDownloadURL(storageRef(storage, "" + uid + "/resume"))
-        .then((url) => {
-        const xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
-        // xhr.onload = (event) => {
-        //     setValue("Resume", xhr.response);
-        // };
-        xhr.open('GET', url);
-        xhr.send();
-    })
-    getDownloadURL(storageRef(storage, "" + uid + "/transcript"))
-        .then((url) => {
-            const xhr = new XMLHttpRequest();
-            xhr.responseType = 'blob';
-            // xhr.onload = (event) => {
-            //     setValue("Transcript", xhr.response);
-            // };
-            xhr.open('GET', url);
-            xhr.send();
-    })
 
     
     
 
-    // const isInitialMount = useRef(true);
     // eslint-disable-next-line
     const onSubmit = (data: any) => {       
         console.log(data);
@@ -121,19 +90,6 @@ function ApplicationPage(): JSX.Element {
     }
 
     
-    // useEffect(() => {
-    //     if (isInitialMount.current) {
-    //         isInitialMount.current = false;
-    //       } else {
-    //         const token = sessionStorage.getItem("Auth Token");
-    //         console.log(token)
-    //         if (token == null || token == '') {
-    //             navigate('/');
-    //         } else {
-    //             navigate('/application');
-    //         }
-    //       }
-    // })
     
     const logOut = async () => {
         const auth = getAuth();
@@ -143,10 +99,8 @@ function ApplicationPage(): JSX.Element {
             sessionStorage.removeItem('Email');
             sessionStorage.removeItem('uid');
         })
-        // .catch((error) => {
-        //     console.log('error');
-        // });
     }
+    
     // eslint-disable-next-line
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, f: (arg0: File) => any) => {
         if (e.target.files != null) {
@@ -257,7 +211,6 @@ function ApplicationPage(): JSX.Element {
                         color="#211E61"
                         fontSize="lg"
                         fontStyle="normal"
-                        // fontWeight="bold"
                         mt='1%'
                     >
                         This section is used to roughly gauge your academic/professional interests.
@@ -296,12 +249,8 @@ function ApplicationPage(): JSX.Element {
                     <Heading fontWeight={400} size="lg" mt="2%">Section 3: Personal Essays</Heading>
                     <Text
                         color="#211E61"
-                        // fontSize="xl"
-                        
-                        // color="#211E61"
                         fontSize="lg"
                         fontStyle="normal"
-                        // fontWeight="bold"
                         mt='1%'
                     >
                         The final section of our application involves two 250-word essays. If reapplying you may choose to reuse your response to essay 1, but please submit a new response to essay 2.
@@ -346,15 +295,6 @@ function ApplicationPage(): JSX.Element {
                         <Textarea mt='1%' placeholder='Prompt 1 Response (max. 250 words)' {...register('Prompt 1')}/>
                     </FormControl>
                     
-                    {/* <Text
-                        color="#211E61"
-                        fontSize="xl"
-                        
-                        fontStyle="normal"
-                        fontWeight="bold"
-                    > 
-                        Prompt 2: Pick a company or NGO and discuss an opportunity it has or a problem it faces. Next, suggest a feasible strategic move (or strategic moves) you would make if you were its CEO. Explain your reasoning and describe your idea's intended impact.
-                    </Text> */}
                     <FormControl isRequired>
                         <FormLabel mt='1.5%'
                                    color="#211E61"
@@ -378,10 +318,6 @@ function ApplicationPage(): JSX.Element {
                 flex='center'
                 padding='10px'
              />
-                {/* <HStack spacing='24px'>
-                    <Button mt="1%" onClick={() => onSave(getValues())}>Save</Button>
-                    <Button type="submit" mt="1%">Submit</Button>
-                </HStack> */}
                 {saveError ? <Alert status='error'>
                     <AlertIcon />
                     <AlertTitle mr={2}>Error while saving</AlertTitle>

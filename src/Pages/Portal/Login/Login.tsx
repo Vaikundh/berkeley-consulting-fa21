@@ -75,7 +75,7 @@ function Login(props: LoginProps): JSX.Element {
                 sessionStorage.setItem('Auth Token', token)
                 sessionStorage.setItem('Email', user.email)
                 sessionStorage.setItem('uid', user.uid)
-
+                // if admin email, then navigate to /admin
                 navigate('/application')
                 return user
                 // return user
