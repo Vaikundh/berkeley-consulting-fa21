@@ -40,9 +40,6 @@ function ApplicationPage(): JSX.Element {
         }
     })
 
-    
-    
-
     // eslint-disable-next-line
     const onSubmit = (data: any) => {       
         console.log(data);

@@ -21,6 +21,8 @@ import firebase_app from '../../../firebase'
 import { useNavigate } from "react-router-dom";
 import logo from '../image.png';
 import wdb from '../../../wdb.png'
+import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
+
 
 interface SignUpProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -64,6 +66,8 @@ function Signup(props: SignUpProps): JSX.Element {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
             const auth = getAuth(firebase_app)
+            const db = getDatabase();
+
             if (data.password === data.validatepass) {
                 await createUserWithEmailAndPassword(auth, data.email, data.password).then(
                     // eslint-disable-next-line
@@ -73,7 +77,22 @@ function Signup(props: SignUpProps): JSX.Element {
                         sessionStorage.setItem('Auth Token', token)
                         sessionStorage.setItem('Email', user.email);
                         sessionStorage.setItem('uid', user.uid);
-                        navigate("/application");
+                        get(ref(db, "/Admin/")).then((data: DataSnapshot) => {                    
+                            console.log(data.toJSON())
+                            const x : any = data.toJSON();
+                            let isAdmin = false;
+                            for (const key in x) {
+                                if (x[key] == user.email) {
+                                    isAdmin = true;
+                                }
+                            }
+                            if (isAdmin) {
+                                navigate('/admin')
+                            } else {
+                                navigate('/application')
+                            }
+                            // eslint-disable-next-line
+                        })
                         return user
                     }
                 ).catch((error) => {
