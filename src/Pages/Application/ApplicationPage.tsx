@@ -131,7 +131,7 @@ function ApplicationPage(): JSX.Element {
                 </Flex>
             </Box> 
             <Text fontSize='50px' textStyle='heading'>Berkeley Consulting Spring 2022 Application</Text>
-            <Text fontSize='24px' textStyle='heading' mt="1%" mb='2%' textAlign='center' width='70%'>This application does not have to completed in one go. You may save your answers at any point by clicking the "Save" button located at the bottom of the page and continue editing at a later time, but the "Submit" button is final. Please email our Technical Director at brandon.guo@berkeley.edu if any questions or issues with the portal arise.</Text>
+            <Text fontSize='24px' textStyle='heading' mt="1%" mb='2%' textAlign='center' width='70%'>This application does not have to be completed in one go. You may save your answers at any point by clicking the "Save" button located at the bottom of the page and continue editing at a later time, but the "Submit" button is final. Please email our Technical Director at brandon.guo@berkeley.edu if any questions or issues with the portal arise.</Text>
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex justifyContent='center'>
                 <Box width='70%'>

@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 
 //BEFORE MERGING TO MAIN, MAKE SURE TO CHANGE DB INFO TO bc-wdb-fa21
 
-// deployed
+// bc-wdb-fa21 for deployment
 // const firebaseConfig = {
 //   apiKey: "AIzaSyA-UD6hkLg9h5EPsM85h1xq_NAkIfdh620",
 //   authDomain: "bc-wdb-f21.firebaseapp.com",
@@ -14,7 +14,7 @@ import { initializeApp } from "firebase/app";
 //   measurementId: "G-55L9HT5HJW",
 // };
 
-// bc-fa21-wdb-DEV
+// bc-fa21-wdb-DEV for development purposes only
 const firebaseConfig = {
   apiKey: "AIzaSyASUdl9plXiE8LotHlGXl4kmpuyD8ax5Uc",
   authDomain: "bc-wdb-fa21-dev.firebaseapp.com",

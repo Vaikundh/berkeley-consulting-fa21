@@ -81,10 +81,10 @@ function Login(props: LoginProps): JSX.Element {
                 // if admin email, then navigate to /admin
                 get(ref(db, "/Admin/")).then((data: DataSnapshot) => {                    
                     // console.log(data.toJSON())
-                    const x : any = data.toJSON();
+                    const admins : any = data.toJSON();
                     let isAdmin = false;
-                    for (const key in x) {
-                        if (x[key] == user.email) {
+                    for (const key in admins) {
+                        if (admins[key] == user.email) {
                             isAdmin = true;
                         }
                     }

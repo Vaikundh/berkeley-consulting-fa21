@@ -78,11 +78,11 @@ function Signup(props: SignUpProps): JSX.Element {
                         sessionStorage.setItem('Email', user.email);
                         sessionStorage.setItem('uid', user.uid);
                         get(ref(db, "/Admin/")).then((data: DataSnapshot) => {                    
-                            console.log(data.toJSON())
-                            const x : any = data.toJSON();
+                            //console.log(data.toJSON())
+                            const admins: any = data.toJSON();
                             let isAdmin = false;
-                            for (const key in x) {
-                                if (x[key] == user.email) {
+                            for (const key in admins) {
+                                if (admins[key] == user.email) {
                                     isAdmin = true;
                                 }
                             }
