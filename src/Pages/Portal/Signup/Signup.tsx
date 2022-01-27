@@ -21,7 +21,7 @@ import firebase_app from '../../../firebase'
 import { useNavigate } from "react-router-dom";
 import logo from '../image.png';
 import wdb from '../../../wdb.png'
-import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
+import { getDatabase, ref, get, DataSnapshot } from "firebase/database"
 
 
 interface SignUpProps {
@@ -79,6 +79,7 @@ function Signup(props: SignUpProps): JSX.Element {
                         sessionStorage.setItem('uid', user.uid);
                         get(ref(db, "/Admin/")).then((data: DataSnapshot) => {                    
                             //console.log(data.toJSON())
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const admins: any = data.toJSON();
                             let isAdmin = false;
                             for (const key in admins) {

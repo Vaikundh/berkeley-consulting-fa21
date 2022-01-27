@@ -10,6 +10,7 @@ import Congratulations from './Pages/Congratulations/Congratulations'
 import AdminPortal from './Pages/Admin/AdminPortal'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import ProtectedAdmin from './Pages/Admin/ProtectedAdmin'
 
 function App(): JSX.Element {
     return (
@@ -25,7 +26,7 @@ function App(): JSX.Element {
                         <Route element={<ProtectedCongratulations />}>
                             <Route path='/congratulations' element={<Congratulations />} />
                         </Route>
-                        <Route>
+                        <Route element={<ProtectedAdmin />}>
                             <Route path='/admin' element={<AdminPortal />} />
                         </Route>
                     </Routes>

@@ -24,7 +24,7 @@ import firebase_app from '../../../firebase'
 import { useNavigate } from 'react-router-dom'
 import logo from '../image.png'
 import wdb from '../../../wdb.png'
-import { getDatabase, ref, set, get, DataSnapshot } from "firebase/database"
+import { getDatabase, ref, get, DataSnapshot } from "firebase/database"
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -81,11 +81,13 @@ function Login(props: LoginProps): JSX.Element {
                 // if admin email, then navigate to /admin
                 get(ref(db, "/Admin/")).then((data: DataSnapshot) => {                    
                     // console.log(data.toJSON())
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const admins : any = data.toJSON();
                     let isAdmin = false;
                     for (const key in admins) {
                         if (admins[key] == user.email) {
                             isAdmin = true;
+                            sessionStorage.setItem('isAdmin', "true");
                         }
                     }
                     if (isAdmin) {

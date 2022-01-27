@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react';
-import { Menu, Center, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Radio, RadioGroup, Stack, Select, HStack, Tag} from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Radio, RadioGroup, Stack, Select, HStack, Tag, Link} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
-import { getDatabase, ref, get, update, query} from "firebase/database"
-import { ChevronDownIcon } from '@chakra-ui/icons'
+import { getDatabase, ref, get, update, query} from "firebase/database";
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { getDownloadURL, getStorage, ref as storageRef } from "firebase/storage";
 
 interface Application {
         "Class Level" : string
@@ -26,6 +27,9 @@ interface Application {
         "Time Submitted": number
         "isAccepted": string
         uid?: string
+        img?: string
+        resume?: string
+        transcript?: string
 }
 function AdminPortal (): JSX.Element {
     //BEFORE MERGING TO MAIN, MAKE SURE TO CHANGE DB INFO
@@ -33,7 +37,10 @@ function AdminPortal (): JSX.Element {
     const email = sessionStorage.getItem("Email")  
     const [apps, setApps] = useState([] as Application[])
     const [filteredApps, setFilteredApps] = useState([] as Application[])
-    const [option, setOption] = useState('option1');
+    // const [option, setOption] = useState('option1');
+
+    const db = getDatabase()
+    const storage = getStorage();
 
     useEffect(() => {
         retrieveApps();
@@ -48,24 +55,44 @@ function AdminPortal (): JSX.Element {
             sessionStorage.removeItem('uid');
         })
     }
-    
-    const db = getDatabase()
+
     
     const retrieveApps = async () => {
-        const applications = (await get(query(ref(db, "/SubmittedApps/"))));
+        const applications = (await get(query(ref(db, "/SubmittedApps/")))).val();
         const arr: Application[] = [];
-        applications.forEach((app) => {
-            const appValues = app.val()
+        // for (DataSnapshot app : applications.getChildren()) {
+        //     const appValues = app.val()
+        //     if (appValues.isSubmitted === true) {
+        //         appValues.uid = app.key
+        //         getDownloadURL(storageRef(storage, appValues.uid + "/image")).then((url) => {
+        //             appValues.img = url;
+        //         })
+        //         arr.push(appValues as Application);
+        //     }
+        // }
+        for (const key in applications) {
+            const appValues = applications[key]
             if (appValues.isSubmitted === true) {
-                appValues.uid = app.key
-                if (appValues.isAccepted == null || appValues.isAccepted == "") {
-                    appValues.isAccepted = "undecided"
-                }
-                arr.push(appValues as Application)
+                appValues.uid = key
+                const imgUrl = await getDownloadURL(storageRef(storage, key + "/image"))
+                appValues.img = imgUrl;
+                const resumeUrl = await getDownloadURL(storageRef(storage, key + "/resume"))
+                appValues.resume = resumeUrl;
+                const transcriptUrl = await getDownloadURL(storageRef(storage, key + "/transcript"))
+                appValues.transcript = transcriptUrl;
+                arr.push(appValues as Application);
             }
-        })
+        }
+        // applications.forEach((app) => {
+        //     const appValues = app.val()
+        //     if (appValues.isSubmitted === true) {
+        //         appValues.uid = app.key;
+        //         arr.push(appValues as Application);
+        //     }
+        // })
         setApps(arr)
         console.log(apps);
+        setFilteredApps(arr);
     }
 
     const updateIsAccepted = (uid: string | undefined, val:string, index: number) => {
@@ -77,20 +104,70 @@ function AdminPortal (): JSX.Element {
         })
     }
 
-    const filterView = (val: string) => {
+    let filteredArr = apps;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const filterView = (e: any) => {
+        const val = e.target.value;
         console.log(val)
-        // if (val === "all") {
-        //     setFilteredApps(apps)
-        // } else if (val === "accepted") {
-        //     setFilteredApps(getAccepted())
-        // } else {
-        //     setFilteredApps(getRejected())
-        // }
+        if (val === "all") {
+            filteredArr = apps;
+        } else if (val === "accepted") {
+            filteredArr = []
+            // setFilteredApps(getAccepted())
+            for (let i = 0; i < apps.length; i++) {
+                if (apps[i].isAccepted == "accepted") {
+                    filteredArr.push(apps[i]);
+                }
+                
+            }
+        } else if (val == 'rejected'){
+            filteredArr = []
+            for (let i = 0; i < apps.length; i++) {
+                if (apps[i].isAccepted == "rejected") {
+                    filteredArr.push(apps[i])
+                }
+                
+            }
+            // setFilteredApps(getRejected())
+        } else if (val == 'undecided'){
+            filteredArr = []
+            for (let i = 0; i < apps.length; i++) {
+                if (apps[i].isAccepted == "undecided" || apps[i].isAccepted == null ) {
+                    filteredArr.push(apps[i])
+                }
+                
+            }
+            // setFilteredApps(getRejected())
+        } else if (val == 'freshman'){
+            filteredArr = []
+            for (let i = 0; i < apps.length; i++) {
+                if (apps[i]['Class Level'] == "Freshman") {
+                    filteredArr.push(apps[i])
+                }
+                
+            }
+            // setFilteredApps(getRejected())
+        } else if (val == 'sophomore'){
+            filteredArr = []
+            for (let i = 0; i < apps.length; i++) {
+                if (apps[i]['Class Level'] == "Sophomore") {
+                    filteredArr.push(apps[i])
+                }
+                
+            }
+            // setFilteredApps(getRejected())
+        } else if (val == 'junior'){
+            filteredArr = []
+            for (let i = 0; i < apps.length; i++) {
+                if (apps[i]['Class Level'] == "Junior") {
+                    filteredArr.push(apps[i])
+                }
+                
+            }
+            // setFilteredApps(getRejected())
+        }
+        setFilteredApps(filteredArr)
     }
-
-    // const handleSelect = (event) => {
-    //     setOption(event.target.value);
-    //   };
     
     return (
         
@@ -98,7 +175,7 @@ function AdminPortal (): JSX.Element {
             <Box top="50px" width='95%'>
                 <Flex direction="row" justifyContent='end'>
                     <Menu>
-                        <MenuButton mt="1%" color="white" bgColor="#211E61" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton mt="1%" ml="1%" color="white" bgColor="#211E61" as={Button} rightIcon={<ChevronDownIcon />}>
                             Account
                         </MenuButton>
                         <MenuList>
@@ -112,68 +189,91 @@ function AdminPortal (): JSX.Element {
                 <Text fontSize='50px' textStyle='heading'>Berkeley Consulting Admin Portal</Text> 
             </Flex>
             {/* Need to map over JSON objects, https://stackoverflow.com/questions/42352161/javascript-iterating-over-json-objects */}
-            {/* <Select onChange={(value) => filterView(value)} placeholder='Select view'>
-                <option value='all'>View All Applicants</option>
-                <option value='accepted'>View Accepted Applicants</option>
-                <option value='rejected'>View Rejected Applicants</option>
-            </Select> */}
+            <Flex direction="row" justifyContent="flex-end">
+                <Select defaultValue="all" onChange={filterView} placeholder='Select view' mb="20px" width="20%" mr="10%">
+                    <option value='all'>View All Applicants</option>
+                    <option value='accepted'>View Accepted Applicants</option>
+                    <option value='rejected'>View Rejected Applicants</option>
+                    <option value='undecided'>View Undecided Applicants</option>
+                    <option value='freshman'>View Freshman Applicants</option>
+                    <option value='sophomore'>View Sophomore Applicants</option>
+                    <option value='junior'>View Junior Applicants</option>
+                </Select>
+            </Flex>
+            
             {/* <Center width='80%' boxShadow='xl'> */}
+            <Flex justifyContent='center'>
+                <Box width='80%' borderWidth='1px' borderRadius='5px'>
                 <Accordion allowMultiple>
-                            {apps.map((app, index) => {
-                                return (
-                                    // <Flex alignItems='center' justifyContent="space-between">
-                                    <AccordionItem>
-                                        <h2>
+                    {filteredApps.map((app, index) => {
+                        return (
+                            // <Flex alignItems='center' justifyContent="space-between">
+                            <AccordionItem>
+                                <h2>
+                                    
+                                    <AccordionButton height="50px">
+                                    {/* Map over summary of user (name, email, class level, GPA, major, reapplying) */}
+                                        <AccordionIcon />
+                                        <HStack>
+                                            <Text ml='3px' mt='0px' mb='0px' fontSize="md">Name: {app.Name} | Email: {app["Preferred Email"]} | Class Level: {app["Class Level"]} | Major: {app.Major} | Reapplying: {app.Reapplying} </Text>
                                             
-                                            <AccordionButton height="50px">
-                                            {/* Map over summary of user (name, email, class level, GPA, major, reapplying) */}
-                                                <AccordionIcon />
-                                                <HStack>
-                                                    <Text ml='3px' mt='0px' mb='0px' fontSize="md">Name: {app.Name} | Email: {app["Preferred Email"]} | Class Level: {app["Class Level"]} | GPA: {app.GPA} | Major: {app.Major} | Reapplying: {app.Reapplying} </Text>
-                                                    
-                                                    {app.isAccepted == 'accepted'  ? (
-                                                        <Tag colorScheme="green">Accepted</Tag>) : (app.isAccepted == "rejected" ? (<Tag colorScheme="red">Rejected</Tag>) : (<Tag >Undecided</Tag>)
-                                                    )}  
-                                                </HStack>
-                                            </AccordionButton> 
-                                            
-                                        </h2>
-                                        
-                                        <AccordionPanel>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            {app.isAccepted == 'accepted'  ? (
+                                                <Tag colorScheme="green">Accepted</Tag>) : (app.isAccepted == "rejected" ? (<Tag colorScheme="red">Rejected</Tag>) : (<Tag >Undecided</Tag>)
+                                            )}  
+                                        </HStack>
+                                    </AccordionButton> 
+                                    
+                                </h2>
+                                
+                                <AccordionPanel>
+                                    <Flex justifyContent='center'>
+                                        <Box width='80%' flex='center'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
+                                                GPA: {app.GPA}
+                                            </Text>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Free Tuesday?: {app['Free Tuesday']}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Gender: {app.Gender}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Second Major: {app["Second Major"] == "" ? "None" : app["Second Major"]}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Third Major: {app["Third Major"] == "" ? "None" : app["Third Major"]}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Grad Year: {app['Grad Year']}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 How did you hear about us: {app['How did you hear']}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Phone Number: {app['Phone Number']}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='3px' mb='0px'>
                                                 Preferred Email: {app['Preferred Email']}
                                             </Text>
-                                            {/* Resume
-                                            Transcript
-                                            Image */}
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <HStack mt="15px">
+                                                <Button>
+                                                    <Link fontSize='md' mt='0' mb='0px' href={app.img} isExternal>Image</Link>
+                                                </Button> 
+                                                <Button>
+                                                    <Link fontSize='md' mt='0' mb='0px' href={app.resume} isExternal>Resume</Link>
+                                                </Button>
+                                                <Button>
+                                                    <Link fontSize='md' mt='0' mb='0px' href={app.transcript} isExternal>Transcript </Link>
+                                                </Button>
+                                            </HStack>
+                                            
+                                            <Text fontSize='md' mt='20px' mb='20px'>
                                                 Prompt 1 Choice: {app['Prompt 1 Choice']}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='0' mb='20px'>
                                                 Prompt 1 Response: {app['Prompt 1']}
                                             </Text>
-                                            <Text fontSize='md' mt='0' mb='0px'>
+                                            <Text fontSize='md' mt='0' mb='20px'>
                                                 Prompt 2 Response: {app['Prompt 2']}
                                             </Text>
                                             <Text fontSize='md' mt='0' mb='0px'>
@@ -186,12 +286,16 @@ function AdminPortal (): JSX.Element {
                                                     <Radio value="undecided">Undecided</Radio>
                                                 </Stack>
                                             </RadioGroup> 
-                                        </AccordionPanel>
-                                    </AccordionItem>
-                                    // </Flex>
-                                )
-                            })}
+                                        </Box>
+                                    </Flex>
+                                </AccordionPanel>
+                            </AccordionItem>
+                            // </Flex>
+                        )
+                    })}
                 </Accordion>
+                </Box>
+                </Flex>
             {/* </Center> */}
         </Box>
     )
