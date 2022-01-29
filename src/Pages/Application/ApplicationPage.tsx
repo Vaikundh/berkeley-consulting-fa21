@@ -30,11 +30,9 @@ import { useNavigate } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
 import { getDatabase, ref, set, get, DataSnapshot } from 'firebase/database'
 import {
-    getDownloadURL,
     getStorage,
     ref as storageRef,
     uploadBytes,
-    UploadResult,
 } from 'firebase/storage'
 import wdb from '../../wdb.png'
 // import { property } from 'lodash';
