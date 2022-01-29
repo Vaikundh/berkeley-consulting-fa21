@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
-import { Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Radio, RadioGroup, Stack, Select, HStack, Tag, Link} from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Radio, RadioGroup, Stack, Select, HStack, Tag, Link, InputGroup, Input, InputLeftElement} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, get, update, query} from "firebase/database";
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, SearchIcon} from '@chakra-ui/icons';
 import { getDownloadURL, getStorage, ref as storageRef } from "firebase/storage";
+
 
 interface Application {
         "Class Level" : string
@@ -37,6 +38,7 @@ function AdminPortal (): JSX.Element {
     const email = sessionStorage.getItem("Email")  
     const [apps, setApps] = useState([] as Application[])
     const [filteredApps, setFilteredApps] = useState([] as Application[])
+    const [searchValue, setSearchValue] = useState("");
     // const [option, setOption] = useState('option1');
 
     const db = getDatabase()
@@ -74,11 +76,20 @@ function AdminPortal (): JSX.Element {
             const appValues = applications[key]
             if (appValues.isSubmitted === true) {
                 appValues.uid = key
-                const imgUrl = await getDownloadURL(storageRef(storage, key + "/image"))
+                const imgUrl = await getDownloadURL(storageRef(storage, key + "/image")).catch((err) => {
+                    console.log(err)
+                    appValues.img = "";
+                })
                 appValues.img = imgUrl;
-                const resumeUrl = await getDownloadURL(storageRef(storage, key + "/resume"))
+                const resumeUrl = await getDownloadURL(storageRef(storage, key + "/resume")).catch((err) => {
+                    console.log(err)
+                    appValues.resume = "";
+                })
                 appValues.resume = resumeUrl;
-                const transcriptUrl = await getDownloadURL(storageRef(storage, key + "/transcript"))
+                const transcriptUrl = await getDownloadURL(storageRef(storage, key + "/transcript")).catch((err) => {
+                    console.log(err)
+                    appValues.transcript = "";
+                })
                 appValues.transcript = transcriptUrl;
                 arr.push(appValues as Application);
             }
@@ -91,7 +102,6 @@ function AdminPortal (): JSX.Element {
         //     }
         // })
         setApps(arr)
-        console.log(apps);
         setFilteredApps(arr);
     }
 
@@ -108,12 +118,10 @@ function AdminPortal (): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filterView = (e: any) => {
         const val = e.target.value;
-        console.log(val)
         if (val === "all") {
             filteredArr = apps;
         } else if (val === "accepted") {
             filteredArr = []
-            // setFilteredApps(getAccepted())
             for (let i = 0; i < apps.length; i++) {
                 if (apps[i].isAccepted == "accepted") {
                     filteredArr.push(apps[i]);
@@ -128,7 +136,6 @@ function AdminPortal (): JSX.Element {
                 }
                 
             }
-            // setFilteredApps(getRejected())
         } else if (val == 'undecided'){
             filteredArr = []
             for (let i = 0; i < apps.length; i++) {
@@ -137,7 +144,6 @@ function AdminPortal (): JSX.Element {
                 }
                 
             }
-            // setFilteredApps(getRejected())
         } else if (val == 'freshman'){
             filteredArr = []
             for (let i = 0; i < apps.length; i++) {
@@ -146,7 +152,6 @@ function AdminPortal (): JSX.Element {
                 }
                 
             }
-            // setFilteredApps(getRejected())
         } else if (val == 'sophomore'){
             filteredArr = []
             for (let i = 0; i < apps.length; i++) {
@@ -155,7 +160,6 @@ function AdminPortal (): JSX.Element {
                 }
                 
             }
-            // setFilteredApps(getRejected())
         } else if (val == 'junior'){
             filteredArr = []
             for (let i = 0; i < apps.length; i++) {
@@ -164,9 +168,21 @@ function AdminPortal (): JSX.Element {
                 }
                 
             }
-            // setFilteredApps(getRejected())
         }
-        setFilteredApps(filteredArr)
+        setFilteredApps(filteredArr);
+    }
+    
+    // eslint-disable-next-line
+    const searchQuery =  (e : any) => {
+        const val = e.target.value;
+        setSearchValue(val);
+        filteredArr = [];
+        for (let i = 0; i < apps.length; i++) {
+            if (apps[i]['Name'].toLowerCase().includes(val.toLowerCase())) {
+                filteredArr.push(apps[i]);
+            }
+        }
+        setFilteredApps(filteredArr);
     }
     
     return (
@@ -189,8 +205,15 @@ function AdminPortal (): JSX.Element {
                 <Text fontSize='50px' textStyle='heading'>Berkeley Consulting Admin Portal</Text> 
             </Flex>
             {/* Need to map over JSON objects, https://stackoverflow.com/questions/42352161/javascript-iterating-over-json-objects */}
-            <Flex direction="row" justifyContent="flex-end">
-                <Select defaultValue="all" onChange={filterView} placeholder='Select view' mb="20px" width="20%" mr="10%">
+            <Flex direction="row" justifyContent="space-between">
+                <InputGroup ml="10%" mr="5%">
+                    <InputLeftElement
+                    pointerEvents='none'
+                    children={<SearchIcon color='gray.300' />}
+                    />
+                    <Input value={searchValue} onChange={searchQuery} placeholder='Search by name' />
+                </InputGroup>
+                <Select defaultValue="all" onChange={filterView} placeholder='Select view' mb="20px" width="25%" mr="10%">
                     <option value='all'>View All Applicants</option>
                     <option value='accepted'>View Accepted Applicants</option>
                     <option value='rejected'>View Rejected Applicants</option>
@@ -199,6 +222,9 @@ function AdminPortal (): JSX.Element {
                     <option value='sophomore'>View Sophomore Applicants</option>
                     <option value='junior'>View Junior Applicants</option>
                 </Select>
+            </Flex>
+            <Flex direction="row" justifyContent="flex-end">
+                
             </Flex>
             
             {/* <Center width='80%' boxShadow='xl'> */}

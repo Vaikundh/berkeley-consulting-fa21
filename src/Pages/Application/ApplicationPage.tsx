@@ -28,7 +28,6 @@ function ApplicationPage(): JSX.Element {
     const uid = sessionStorage.getItem("uid")
 
     get(ref(db, "/SubmittedApps/" + uid)).then((data: DataSnapshot) => {
-        console.log(data.toJSON())
         // eslint-disable-next-line
         const jsonData : any = data.toJSON();
         if (jsonData != null) {
@@ -107,9 +106,9 @@ function ApplicationPage(): JSX.Element {
 
     const handleUpload = (file: File, fileName: string) => {
         uploadBytes(storageRef(storage, "" + uid + "/" + fileName), file).then((snapshot : UploadResult) => {
-            console.log(getDownloadURL(snapshot.ref).then((downloadURL) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
                 console.log(downloadURL)
-            }))
+            })
         })
         return true;
     }
