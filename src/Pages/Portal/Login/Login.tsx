@@ -24,6 +24,7 @@ import firebase_app from '../../../firebase'
 import { useNavigate } from 'react-router-dom'
 import logo from '../image.png'
 import wdb from '../../../wdb.png'
+import { getDatabase, ref, get, DataSnapshot } from "firebase/database"
 
 interface LoginProps {
     updateIsLogin: React.Dispatch<SetStateAction<boolean>>
@@ -67,6 +68,7 @@ function Login(props: LoginProps): JSX.Element {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const auth = getAuth(firebase_app)
+        const db = getDatabase();
         await signInWithEmailAndPassword(auth, data.email, data.password)
             // eslint-disable-next-line
             .then((userCredential: any) => {
@@ -75,8 +77,26 @@ function Login(props: LoginProps): JSX.Element {
                 sessionStorage.setItem('Auth Token', token)
                 sessionStorage.setItem('Email', user.email)
                 sessionStorage.setItem('uid', user.uid)
-
-                navigate('/application')
+                
+                // if admin email, then navigate to /admin
+                get(ref(db, "/Admin/")).then((data: DataSnapshot) => {                    
+                    // console.log(data.toJSON())
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const admins : any = data.toJSON();
+                    let isAdmin = false;
+                    for (const key in admins) {
+                        if (admins[key] == user.email) {
+                            isAdmin = true;
+                            sessionStorage.setItem('isAdmin', "true");
+                        }
+                    }
+                    if (isAdmin) {
+                        navigate('/admin')
+                    } else {
+                        navigate('/application')
+                    }
+                    // eslint-disable-next-line
+                })
                 return user
                 // return user
             })

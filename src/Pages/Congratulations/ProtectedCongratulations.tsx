@@ -15,7 +15,7 @@ function ProtectedCongratulations(): JSX.Element {
       const application = await get(ref(db, "/SubmittedApps/" + uid))
       a = application.val().isSubmitted;
   }
-  console.log(a)
+
   if (a == true) { //need to fix
       return <Navigate to="/congratulations" />
   }
@@ -23,51 +23,3 @@ function ProtectedCongratulations(): JSX.Element {
   
 }
 export default ProtectedCongratulations;
-// const ProtectedCongrats = () => {
-// 	const [submitted, setSubmitted] = useState(false);
-  
-// 	const checkIfSubmitted = async (): Promise<boolean> => {
-// 		const db = getDatabase();
-//     const uid = sessionStorage.getItem('uid');
-//     const application = await get(ref(db, "/SubmittedApps/" + uid));
-//     const submitted = application.val().isSubmitted;
-//     return submitted;
-//   }
-
-//   useEffect(() => {
-// 		checkIfSubmitted().then(res => res && setSubmitted(true))
-//   }, []);
-  
-//   return <>
-//     {submitted ? 
-//       <Navigate to="/congratulations" /> : <Outlet />}
-//     </>
-
-// };
-
-// const ProtectedCongrats = () => {
-//     const [submitted, setSubmitted] = useState(false);
-
-//     const checkIfSubmitted = async (): Promise<boolean> => {
-//       const db = getDatabase();
-//       const uid = sessionStorage.getItem('uid');
-//       const application = await get(ref(db, "/SubmittedApps/" + uid));
-//       const submitted = application.val().isSubmitted;
-//       return submitted;
-//     }
-
-//     useEffect(() => {
-//       checkIfSubmitted().then(res => res && setSubmitted(true))
-//     }, []);
-  
-//     return submitted ? (
-//       <Navigate
-//         to="/congratulations"
-//         replace={true}
-//       />
-//     ) : (
-//       <Outlet />
-//     );
-
-//   };
-// export default ProtectedCongrats;
