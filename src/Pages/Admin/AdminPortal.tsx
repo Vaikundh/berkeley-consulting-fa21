@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Radio, RadioGroup, Stack, Select, HStack, Tag, Link, InputGroup, Input, InputLeftElement} from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, Button, Box, Flex, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Radio, RadioGroup, Stack, Select, HStack, Tag, InputGroup, Input, InputLeftElement} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, get, update, query} from "firebase/database";
@@ -28,9 +28,9 @@ interface Application {
         "Time Submitted": number
         "isAccepted": string
         uid?: string
-        img?: string
-        resume?: string
-        transcript?: string
+        // noImg?: boolean
+        // noResume?: boolean
+        // noTranscript?: boolean
 }
 function AdminPortal (): JSX.Element {
     //BEFORE MERGING TO MAIN, MAKE SURE TO CHANGE DB INFO
@@ -76,21 +76,24 @@ function AdminPortal (): JSX.Element {
             const appValues = applications[key]
             if (appValues.isSubmitted === true) {
                 appValues.uid = key
-                const imgUrl = await getDownloadURL(storageRef(storage, key + "/image")).catch((err) => {
-                    console.log(err)
-                    appValues.img = "";
-                })
-                appValues.img = imgUrl;
-                const resumeUrl = await getDownloadURL(storageRef(storage, key + "/resume")).catch((err) => {
-                    console.log(err)
-                    appValues.resume = "";
-                })
-                appValues.resume = resumeUrl;
-                const transcriptUrl = await getDownloadURL(storageRef(storage, key + "/transcript")).catch((err) => {
-                    console.log(err)
-                    appValues.transcript = "";
-                })
-                appValues.transcript = transcriptUrl;
+                appValues.noImg = false;
+                appValues.noResume = false;
+                appValues.noTranscript = false;
+                // // const imgUrl = await getDownloadURL(storageRef(storage, key + "/image")).catch((err) => {
+                // //     console.log(err)
+                // //     appValues.img = "";
+                // // })
+                // appValues.img = imgUrl;
+                // const resumeUrl = await getDownloadURL(storageRef(storage, key + "/resume")).catch((err) => {
+                //     console.log(err)
+                //     appValues.resume = "";
+                // })
+                // appValues.resume = resumeUrl;
+                // const transcriptUrl = await getDownloadURL(storageRef(storage, key + "/transcript")).catch((err) => {
+                //     console.log(err)
+                //     appValues.transcript = "";
+                // })
+                // appValues.transcript = transcriptUrl;
                 arr.push(appValues as Application);
             }
         }
@@ -183,6 +186,40 @@ function AdminPortal (): JSX.Element {
             }
         }
         setFilteredApps(filteredArr);
+    }
+
+    const onClickFile = (uid: string | undefined, docType: string) => {
+        const win = window.open(); 
+        getDownloadURL(storageRef(storage, uid + "/" + docType)).then((url) => {
+            if (win != null) {
+                win.location = url;
+            }
+        }
+        ).catch((err) => {
+            console.log(err);
+        })
+        // async () => {
+        //     if (uid != null) {
+        //         const url = await getDownloadURL(storageRef(storage, uid + "/" + docType)).catch((err) => {
+        //         console.log(err);
+        //         // app.img=''
+        //         // return (
+        //         //     <Alert status='error'>
+        //         //     <AlertIcon />
+        //         //     <AlertTitle mr={2}>Your browser is outdated!</AlertTitle>
+        //         //     <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
+        //         //     <CloseButton position='absolute' right='8px' top='8px' />
+        //         //     </Alert>
+        //         // )
+        //         })
+        //         if (url != null && win != null) {
+        //             win.location = url;
+        //             // if (window) {
+        //                 win.focus();
+        //             // }
+        //         }
+        // //     }
+        // }
     }
     
     return (
@@ -282,17 +319,23 @@ function AdminPortal (): JSX.Element {
                                                 Preferred Email: {app['Preferred Email']}
                                             </Text>
                                             <HStack mt="15px">
-                                                <Button>
-                                                    <Link fontSize='md' mt='0' mb='0px' href={app.img} isExternal>Image</Link>
+                                                <Button onClick={() => onClickFile(app.uid, "image")}>
+                                                    Image
+                                                    {/* <Link fontSize='md' mt='0' mb='0px' href={app.img} isExternal>Image</Link> */}
                                                 </Button> 
-                                                <Button>
-                                                    <Link fontSize='md' mt='0' mb='0px' href={app.resume} isExternal>Resume</Link>
+                                                <Button onClick={() => onClickFile(app.uid, "resume")}>
+                                                    Resume
+                                                    {/* <Link fontSize='md' mt='0' mb='0px' href={app.resume} isExternal>Resume</Link> */}
                                                 </Button>
-                                                <Button>
-                                                    <Link fontSize='md' mt='0' mb='0px' href={app.transcript} isExternal>Transcript </Link>
+                                                <Button onClick={() => onClickFile(app.uid, "transcript")}>
+                                                    Transcript
+                                                    {/* <Link fontSize='md' mt='0' mb='0px' href={app.transcript} isExternal>Transcript </Link> */}
                                                 </Button>
+                                                
                                             </HStack>
-                                            
+                                            {/* {app.noImg == true ? <Text fontSize='md' mt='20px' mb='20px' color='error'>No image found</Text> : null}
+                                            {app.noResume == true ? <Text fontSize='md' mt='20px' mb='20px' color='error'>No resume found</Text> : null}
+                                            {app.noTranscript == true ? <Text fontSize='md' mt='20px' mb='20px' color='error'>No transcript found</Text> : null} */}
                                             <Text fontSize='md' mt='20px' mb='20px'>
                                                 Prompt 1 Choice: {app['Prompt 1 Choice']}
                                             </Text>
